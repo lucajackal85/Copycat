@@ -9,7 +9,6 @@ class SQLFileWriter implements WriterInterface
     protected $outputFilePathname;
     protected $tablename;
     protected $replaceFile;
-    protected $isFirstRow = true;
 
     public function __construct($tablename,$outputFilePathname,$replaceFile = false)
     {
@@ -23,12 +22,11 @@ class SQLFileWriter implements WriterInterface
     }
 
 
-    public function writeItem(array $item)
+    public function writeItem(array $item,$currentIndex,$totalElements)
     {
-        if($this->isFirstRow) {
+        if($currentIndex == 1) {
             $headString = sprintf("insert into %s (%s) values\n", $this->tablename, implode(', ',array_keys($item)));
             $this->appendRow($headString);
-            $this->isFirstRow = false;
         }else{
             $this->appendRow(",\n");
         }

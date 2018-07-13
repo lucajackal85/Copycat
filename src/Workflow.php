@@ -15,24 +15,41 @@ class Workflow
     protected $reader;
 
     /**
-     * @var WriterInterface
+     * @var WriterInterface[]
      */
-    protected $writer;
+    protected $writers;
 
-    public function addReader(ReaderInterface $reader){
+    public function __construct(ReaderInterface $reader)
+    {
         $this->reader = $reader;
     }
 
     public function addWriter(WriterInterface $writer){
-        $this->writer = $writer;
+        $this->writers[] = $writer;
     }
 
     public function process(){
-
-        $this->writer->prepare();
-        foreach ($this->reader as $row){
-            $this->writer->writeItem($row);
+        if(!$this->reader){
+            throw new \RuntimeException('No reader set');
         }
-        $this->writer->finish();
+
+        if(!$this->writers){
+            throw new \RuntimeException('No writer set');
+        }
+
+        foreach($this->writers as $writer) {
+            $writer->prepare();
+        }
+
+        $totalElement = $this->reader->count();
+        foreach ($this->reader as $k => $row) {
+            foreach($this->writers as $writer) {
+                $writer->writeItem($row,($k+1),$totalElement);
+            }
+        }
+
+        foreach($this->writers as $writer) {
+            $writer->finish();
+        }
     }
 }
