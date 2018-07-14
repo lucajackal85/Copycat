@@ -17,8 +17,14 @@ class SQLLoadDataLocalWriter extends CSVFileWriter
 
     public function __construct($tablename,$outputFilePathname, $replaceFile = false,$autoincrementField = null,$dropRecords = false)
     {
-        parent::__construct($outputFilePathname, $replaceFile, $this->delimiter, $this->enclosure, true);
-        $this->sqlOutputFilePathname = dirname($this->outputFilePathname).DIRECTORY_SEPARATOR.basename($this->outputFilePathname,'.csv').'-loader.sql';
+        touch($outputFilePathname);
+        $outputFile = new \SplFileInfo($outputFilePathname);
+
+        $localPath = realpath($outputFile->getPathname());
+        $csvOutputFilePathname = str_replace('.'.$outputFile->getExtension(),'.csv',$localPath);
+
+        parent::__construct($csvOutputFilePathname, $replaceFile, $this->delimiter, $this->enclosure, true);
+        $this->sqlOutputFilePathname = $localPath;
         $this->tablename = $tablename;
         $this->autoincrementField = $autoincrementField;
         $this->dropRecords = $dropRecords;
