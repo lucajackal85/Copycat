@@ -1,7 +1,7 @@
 <?php
 
 
-namespace Jackal\Importer\Reader;
+namespace Jackal\Copycat\Reader;
 
 
 interface ReaderInterface extends \Countable, \Iterator

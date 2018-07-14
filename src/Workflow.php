@@ -1,11 +1,11 @@
 <?php
 
 
-namespace Jackal\Importer;
+namespace Jackal\Copycat;
 
 
-use Jackal\Importer\Reader\ReaderInterface;
-use Jackal\Importer\Writer\WriterInterface;
+use Jackal\Copycat\Reader\ReaderInterface;
+use Jackal\Copycat\Writer\WriterInterface;
 
 class Workflow
 {

@@ -1,7 +1,7 @@
 <?php
 
 
-namespace Jackal\Importer\Writer;
+namespace Jackal\Copycat\Writer;
 
 
 interface WriterInterface

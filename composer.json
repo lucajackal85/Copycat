@@ -1,5 +1,5 @@
 {
-    "name": "jackal/importer",
+    "name": "jackal/copycat",
     "type": "library",
     "authors": [
         {
@@ -9,8 +9,8 @@
     ],
     "autoload": {
         "psr-4": {
-            "Jackal\\Importer\\": "src/",
-            "Jackal\\Importer\\Tests\\": "test/"
+            "Jackal\\Copycat\\": "src/",
+            "Jackal\\Copycat\\Tests\\": "test/"
         }
     },
     "require": {},

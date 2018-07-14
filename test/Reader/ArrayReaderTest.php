@@ -20,5 +20,8 @@ class ArrayReaderTest extends TestCase
         $this->assertEquals(['cell12','cell22','cell32','cell42'],$reader->get(1));
         $this->assertEquals(['cell13','cell23','cell33','cell43'],$reader->get(2));
         $this->assertEquals(null,$reader->get(3));
+        $this->assertEquals(3,$reader->count());
     }
+
+
 }
