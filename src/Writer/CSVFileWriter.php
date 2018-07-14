@@ -12,6 +12,7 @@ class CSVFileWriter implements WriterInterface
     protected $delimiter;
     protected $enclosure;
     protected $writeHeader = true;
+    protected $index = 0;
 
     public function __construct($outputFilePathname,$replaceFile = false,$delimiter = ',',$enclosure = '"',$writeHeader = true)
     {
@@ -38,13 +39,13 @@ class CSVFileWriter implements WriterInterface
 
     }
 
-    public function writeItem(array $item,$currentIndex,$totalElements)
+    public function writeItem(array $item)
     {
-        if($currentIndex == 1 and $this->writeHeader){
+        if($this->index == 0 and $this->writeHeader){
             fputcsv($this->handle,array_keys($item),$this->delimiter,$this->enclosure);
         }
-
         fputcsv($this->handle,array_values($item),$this->delimiter,$this->enclosure);
+        $this->index++;
     }
 
     public function finish()

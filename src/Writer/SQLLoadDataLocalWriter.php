@@ -18,6 +18,7 @@ class SQLLoadDataLocalWriter extends CSVFileWriter
     public function __construct($tablename,$outputFilePathname, $replaceFile = false,$autoincrementField = null,$dropRecords = false)
     {
         touch($outputFilePathname);
+
         $outputFile = new \SplFileInfo($outputFilePathname);
 
         $localPath = realpath($outputFile->getPathname());
@@ -30,12 +31,12 @@ class SQLLoadDataLocalWriter extends CSVFileWriter
         $this->dropRecords = $dropRecords;
     }
 
-    public function writeItem(array $item, $currentIndex, $totalElements)
+    public function writeItem(array $item)
     {
-        parent::writeItem($item, $currentIndex, $totalElements);
-        if($currentIndex == 1){
+        if($this->index == 0){
             $this->headers = array_keys($item);
         }
+        parent::writeItem($item);
     }
 
     public function finish()

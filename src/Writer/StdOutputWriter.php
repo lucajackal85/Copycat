@@ -15,7 +15,7 @@ class StdOutputWriter implements WriterInterface
         //do nothing
     }
 
-    public function writeItem(array $item,$currentIndex,$totalElements)
+    public function writeItem(array $item)
     {
         $this->write(implode(', ',$item)."\n");
     }

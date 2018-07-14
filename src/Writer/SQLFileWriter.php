@@ -9,6 +9,7 @@ class SQLFileWriter implements WriterInterface
     protected $outputFilePathname;
     protected $tablename;
     protected $replaceFile;
+    protected $index;
 
     public function __construct($tablename,$outputFilePathname,$replaceFile = false)
     {
@@ -22,9 +23,9 @@ class SQLFileWriter implements WriterInterface
     }
 
 
-    public function writeItem(array $item,$currentIndex,$totalElements)
+    public function writeItem(array $item)
     {
-        if($currentIndex == 1) {
+        if($this->index == 0) {
             $headString = sprintf("insert into %s (%s) values\n", $this->tablename, implode(', ',array_keys($item)));
             $this->appendRow($headString);
         }else{
@@ -42,6 +43,7 @@ class SQLFileWriter implements WriterInterface
 
         $rowString = sprintf('(%s)',implode(', ',array_values($item)));
         $this->appendRow($rowString);
+        $this->index++;
     }
 
     public function prepare()

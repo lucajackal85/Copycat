@@ -4,7 +4,7 @@
 namespace Jackal\Importer\Tests\Reader;
 
 
-use Jackal\Importer\Reader\ArrayReader;
+use Jackal\Copycat\Reader\ArrayReader;
 use PHPUnit\Framework\TestCase;
 
 class ArrayReaderTest extends TestCase

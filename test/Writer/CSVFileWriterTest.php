@@ -4,16 +4,11 @@
 namespace Jackal\Importer\Tests\Writer;
 
 
-use Jackal\Importer\Writer\CSVFileWriter;
-use PHPUnit\Framework\TestCase;
+use Jackal\Copycat\Tests\Writer\AbstractFileTestCase;
+use Jackal\Copycat\Writer\CSVFileWriter;
 
-class CSVFileWriterTest extends TestCase
+class CSVFileWriterTest extends AbstractFileTestCase
 {
-    protected $tmpFile;
-    protected function setUp()
-    {
-        $this->tmpFile = __DIR__.'/tmp.csv';
-    }
 
     public function testWriteCSV(){
 
@@ -62,10 +57,5 @@ class CSVFileWriterTest extends TestCase
         $this->assertFalse(fgetcsv($fileHandler));
     }
 
-    protected function tearDown()
-    {
-        if(is_file($this->tmpFile)){
-            unlink($this->tmpFile);
-        }
-    }
+
 }

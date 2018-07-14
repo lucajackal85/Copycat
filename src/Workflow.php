@@ -4,6 +4,8 @@
 namespace Jackal\Copycat;
 
 
+use Jackal\Copycat\Converter\ConversionMap;
+use Jackal\Copycat\Converter\ValueConverter\ConverterInterface;
 use Jackal\Copycat\Reader\ReaderInterface;
 use Jackal\Copycat\Writer\WriterInterface;
 
@@ -17,15 +19,25 @@ class Workflow
     /**
      * @var WriterInterface[]
      */
-    protected $writers;
+    protected $writers = [];
+
+    /**
+     * @var ConversionMap
+     */
+    protected $conversionMap;
 
     public function __construct(ReaderInterface $reader)
     {
         $this->reader = $reader;
+        $this->conversionMap = new ConversionMap();
     }
 
     public function addWriter(WriterInterface $writer){
         $this->writers[] = $writer;
+    }
+
+    public function addConverter($column,callable $converter){
+        $this->conversionMap->add($column,$converter);
     }
 
     public function process(){
@@ -34,17 +46,17 @@ class Workflow
         }
 
         if(!$this->writers){
-            throw new \RuntimeException('No writer set');
+            throw new \RuntimeException('No writers set');
         }
 
         foreach($this->writers as $writer) {
             $writer->prepare();
         }
 
-        $totalElement = $this->reader->count();
         foreach ($this->reader as $k => $row) {
             foreach($this->writers as $writer) {
-                $writer->writeItem($row,($k+1),$totalElement);
+                $this->conversionMap->apply($row);
+                $writer->writeItem($row);
             }
         }
 

@@ -13,7 +13,8 @@
             "Jackal\\Copycat\\Tests\\": "test/"
         }
     },
-    "require": {},
+    "require": {
+    },
     "require-dev": {
         "phpunit/phpunit": "^6.5"
     }
