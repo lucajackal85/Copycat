@@ -18,7 +18,7 @@ class ArrayWriter implements WriterInterface
         //do nothing
     }
 
-    public function writeItem(array $item, $currentIndex, $totalElements)
+    public function writeItem(array $item)
     {
         call_user_func($this->callback, $item);
     }
