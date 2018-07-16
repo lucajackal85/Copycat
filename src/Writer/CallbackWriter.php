@@ -1,10 +1,9 @@
 <?php
 
-
 namespace Jackal\Copycat\Writer;
 
 
-class ArrayWriter implements WriterInterface
+class CallbackWriter implements WriterInterface
 {
     protected $callback;
 

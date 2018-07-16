@@ -22,7 +22,7 @@ class SubitoReader implements \Jackal\Copycat\Reader\ReaderInterface
             $this->items[] = [
                 'subito_id' => $currentAd['urn'].'-'.uniqid(),
                 'created_at' => $currentAd['dates']['display'],
-                'saved_at' => (new \DateTime('now'))->format('Y-m-d H:i:s'),
+                'saved_at' => (new \DateTime('now')),
                 'subject' => $currentAd['subject'],
                 'body' => $currentAd['body'],
             ];
