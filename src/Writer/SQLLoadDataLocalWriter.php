@@ -17,6 +17,10 @@ class SQLLoadDataLocalWriter extends CSVFileWriter
 
     public function __construct($tablename,$outputFilePathname, $replaceFile = false,$autoincrementField = null,$dropRecords = false)
     {
+        if(!is_dir(dirname($outputFilePathname))){
+            mkdir(dirname($outputFilePathname),0775,true);
+        }
+
         touch($outputFilePathname);
 
         $outputFile = new \SplFileInfo($outputFilePathname);
