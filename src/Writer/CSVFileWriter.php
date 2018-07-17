@@ -21,10 +21,18 @@ class CSVFileWriter implements WriterInterface
         $this->delimiter = $delimiter;
         $this->enclosure = $enclosure;
         $this->writeHeader = $writeHeader;
+
+        if(!is_dir(dirname($this->outputFilePathname))){
+            mkdir(dirname($this->outputFilePathname),0775,true);
+        }
     }
 
     public function prepare()
     {
+        if(!is_dir(dirname($this->outputFilePathname))){
+            mkdir(dirname($this->outputFilePathname),0775,true);
+        }
+
         $fileExists = file_exists($this->outputFilePathname);
         if($fileExists and !$this->replaceFile){
             throw new \Exception('File '.realpath($this->outputFilePathname).' already exists');
