@@ -4,15 +4,13 @@
 namespace Jackal\Copycat\Filter\ValueFilter;
 
 
-class LowerThanFilter implements FilterInterface
+class LowerThanFilter extends AbstractFilter
 {
-
-    private $fieldName;
     private $comparedValue;
 
     public function __construct($fieldName,$comparedValue = 0)
     {
-        $this->fieldName = $fieldName;
+        parent::__construct($fieldName);
         $this->comparedValue = $comparedValue;
     }
 
