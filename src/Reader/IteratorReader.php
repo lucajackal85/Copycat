@@ -3,7 +3,6 @@
 
 namespace Jackal\Copycat\Reader;
 
-
 abstract class IteratorReader implements ReaderInterface
 {
     private $cursor = 0;
@@ -13,8 +12,9 @@ abstract class IteratorReader implements ReaderInterface
      * @param $index
      * @return array
      */
-    public function get($index){
-        if(!isset($this->items[$index])){
+    public function get($index)
+    {
+        if (!isset($this->items[$index])) {
             return null;
         }
         return $this->items[$index];
@@ -23,8 +23,9 @@ abstract class IteratorReader implements ReaderInterface
     /**
      * @return array
      */
-    public function first(){
-        if(!isset($this->items[0])){
+    public function first()
+    {
+        if (!isset($this->items[0])) {
             return null;
         }
         return $this->items[0];
@@ -86,7 +87,7 @@ abstract class IteratorReader implements ReaderInterface
      */
     public function valid()
     {
-        return array_key_exists($this->cursor,$this->items);
+        return array_key_exists($this->cursor, $this->items);
     }
 
     /**

@@ -3,17 +3,16 @@
 
 namespace Jackal\Copycat\Tests\Writer;
 
-
 use Jackal\Copycat\Writer\CallbackWriter;
 use PHPUnit\Framework\TestCase;
 
 class CallbackWriterTest extends TestCase
 {
-    public function testCallCallback(){
-
+    public function testCallCallback()
+    {
         $outValues = [];
 
-        $callbackWriter = new CallbackWriter(function($values) use (&$outValues){
+        $callbackWriter = new CallbackWriter(function ($values) use (&$outValues) {
             $outValues[] = $values;
         });
 
@@ -23,6 +22,6 @@ class CallbackWriterTest extends TestCase
         $this->assertEquals([
             ['key1' => 'this is a value'],
             ['key2' => 'this is a value 2']
-        ],$outValues);
+        ], $outValues);
     }
 }

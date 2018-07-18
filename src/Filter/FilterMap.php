@@ -3,7 +3,6 @@
 
 namespace Jackal\Copycat\Filter;
 
-
 class FilterMap
 {
     /**
@@ -11,14 +10,15 @@ class FilterMap
      */
     protected $map = [];
 
-    public function add(callable $filter){
+    public function add(callable $filter)
+    {
         $this->map[] = $filter;
     }
 
-    public function apply(array &$values){
-
-        foreach ($this->map as $filter){
-            if($filter($values) == false){
+    public function apply(array &$values)
+    {
+        foreach ($this->map as $filter) {
+            if ($filter($values) == false) {
                 return false;
             }
         }

@@ -3,7 +3,6 @@
 
 namespace Jackal\Copycat\Filter\ValueFilter;
 
-
 class NotBlankFilter extends AbstractFilter
 {
     public function __invoke($value)

@@ -3,7 +3,6 @@
 
 namespace Jackal\Copycat\Writer;
 
-
 interface WriterInterface
 {
     public function prepare();

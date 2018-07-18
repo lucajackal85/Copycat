@@ -1,23 +1,23 @@
 <?php
 
 
-namespace Jackal\Importer\Tests\Converter;
-
+namespace Jackal\Importer\Tests\Converter\ValueConverter;
 
 use Jackal\Copycat\Converter\ValueConverter\DatetimeToStringConverter;
 use PHPUnit\Framework\TestCase;
 
 class DatetimeToStringConverterTest extends TestCase
 {
-    public function testItShouldConvertDateTime(){
-
+    public function testItShouldConvertDateTime()
+    {
         $dt = new \DateTime('2018-01-02 13:23:11');
         $converter = new DatetimeToStringConverter('H:i:s d/m/Y');
 
-        $this->assertEquals('13:23:11 02/01/2018',$converter($dt));
+        $this->assertEquals('13:23:11 02/01/2018', $converter($dt));
     }
 
-    public function testItShouldRaiseExceptionOnInvalidData(){
+    public function testItShouldRaiseExceptionOnInvalidData()
+    {
         $this->expectException(\Exception::class);
 
         $dt = 'invalid value';

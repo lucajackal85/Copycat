@@ -3,7 +3,6 @@
 
 namespace Jackal\Copycat\Writer;
 
-
 class ArrayWriter implements WriterInterface
 {
     /**
