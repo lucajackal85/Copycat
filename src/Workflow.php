@@ -6,6 +6,8 @@ namespace Jackal\Copycat;
 
 use Jackal\Copycat\Converter\ConversionMap;
 use Jackal\Copycat\Converter\ValueConverter\ConverterInterface;
+use Jackal\Copycat\Filter\FilterInterface;
+use Jackal\Copycat\Filter\FilterMap;
 use Jackal\Copycat\Reader\ReaderInterface;
 use Jackal\Copycat\Writer\WriterInterface;
 
@@ -26,24 +28,45 @@ class Workflow
      */
     protected $conversionMap;
 
+    /**
+     * @var FilterMap
+     */
+    protected $filterMap;
+
+    /**
+     * Workflow constructor.
+     * @param ReaderInterface $reader
+     */
     public function __construct(ReaderInterface $reader)
     {
         $this->reader = $reader;
         $this->conversionMap = new ConversionMap();
+        $this->filterMap = new FilterMap();
     }
 
+    /**
+     * @param WriterInterface $writer
+     */
     public function addWriter(WriterInterface $writer){
         $this->writers[] = $writer;
     }
 
+    /**
+     * @param $column
+     * @param callable $converter
+     */
     public function addConverter($column,callable $converter){
         $this->conversionMap->add($column,$converter);
     }
 
+    /**
+     * @param callable $filter
+     */
+    public function addFilter(callable $filter){
+        $this->filterMap->add($filter);
+    }
+
     public function process(){
-        if(!$this->reader){
-            throw new \RuntimeException('No reader set');
-        }
 
         if(!$this->writers){
             throw new \RuntimeException('No writers set');
@@ -56,7 +79,9 @@ class Workflow
         foreach ($this->reader as $k => $row) {
             foreach($this->writers as $writer) {
                 $this->conversionMap->apply($row);
-                $writer->writeItem($row);
+                if($this->filterMap->apply($row)) {
+                    $writer->writeItem($row);
+                }
             }
         }
 
