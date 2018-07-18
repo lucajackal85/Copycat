@@ -21,7 +21,7 @@ class ConversionMap
         }
 
         foreach ($this->map as $field => $converter){
-            if(!isset($values[$field])) {
+            if(!array_key_exists($field,$values)) {
                 throw new \RuntimeException(sprintf('Column "%s" not found to apply conversion',$field));
             }
             $values[$field] = $converter($values[$field]);
