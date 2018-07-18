@@ -15,5 +15,17 @@ class NotBlankFilterTest extends TestCase
         $this->assertTrue($filter([
             'the_field' => 'pippo'
         ]));
+
+        $this->assertTrue($filter([
+            'the_field' => '0'
+        ]));
+
+        $this->assertFalse($filter([
+            'the_field' => ''
+        ]));
+
+        $this->assertFalse($filter([
+            'the_field' => null
+        ]));
     }
 }

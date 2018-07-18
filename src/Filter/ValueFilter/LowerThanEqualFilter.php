@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: luca
- * Date: 18/07/18
- * Time: 23:07
- */
 
 namespace Jackal\Copycat\Filter\ValueFilter;
 

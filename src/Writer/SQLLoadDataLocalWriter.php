@@ -12,7 +12,7 @@ class SQLLoadDataLocalWriter extends CSVFileWriter
     protected $autoincrementField;
     protected $dropRecords = false;
 
-    protected $headers;
+    protected $headers = [];
 
     public function __construct($tablename, $outputFilePathname, $replaceFile = false, $autoincrementField = null, $dropRecords = false)
     {
