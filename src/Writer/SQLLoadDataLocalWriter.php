@@ -60,6 +60,7 @@ CHARACTER SET utf8
 FIELDS TERMINATED BY '\\t'
 ENCLOSED BY '{$this->enclosure}'
 LINES TERMINATED BY '\\n'
+ESCAPED BY '\\'
 IGNORE $rowsToIgnore LINES
 $headers
 $autoincrementtring
