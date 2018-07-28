@@ -57,10 +57,12 @@ class SQLLoadDataLocalWriter extends CSVFileWriter
 LOAD DATA LOCAL INFILE '{$this->outputFilePathname}' 
 INTO TABLE {$this->tablename}
 CHARACTER SET utf8
-FIELDS TERMINATED BY '\\t'
-ENCLOSED BY '{$this->enclosure}'
-LINES TERMINATED BY '\\n'
-ESCAPED BY '\\'
+FIELDS 
+    TERMINATED BY '\\t'
+    ENCLOSED BY '{$this->enclosure}'
+    ESCAPED BY ''
+LINES 
+    TERMINATED BY '\\n'
 IGNORE $rowsToIgnore LINES
 $headers
 $autoincrementtring
