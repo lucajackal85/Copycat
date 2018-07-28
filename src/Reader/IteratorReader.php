@@ -9,6 +9,10 @@ abstract class IteratorReader implements ReaderInterface
     private $cursor = 0;
     protected $items = [];
 
+    public function addItem(array $item){
+        $this->items[] = $item;
+    }
+
     /**
      * @param $index
      * @return array
