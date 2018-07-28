@@ -3,7 +3,6 @@
 
 namespace Jackal\Copycat\Converter\ValueConverter;
 
-
 class DatetimeToStringConverter implements ConverterInterface
 {
     protected $format;

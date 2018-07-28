@@ -2,7 +2,6 @@
 
 namespace Jackal\Copycat\Writer;
 
-
 class CallbackWriter implements WriterInterface
 {
     protected $callback;

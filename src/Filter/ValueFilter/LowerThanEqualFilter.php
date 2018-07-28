@@ -1,9 +1,8 @@
 <?php
 
-
 namespace Jackal\Copycat\Filter\ValueFilter;
 
-class ValueNotInFilter extends ValueInFilter
+class LowerThanEqualFilter extends GreaterThanFilter
 {
     public function __invoke($value)
     {

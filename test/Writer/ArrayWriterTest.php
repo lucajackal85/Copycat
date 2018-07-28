@@ -3,14 +3,13 @@
 
 namespace Jackal\Copycat\Tests\Writer;
 
-
 use Jackal\Copycat\Writer\ArrayWriter;
 use PHPUnit\Framework\TestCase;
 
 class ArrayWriterTest extends TestCase
 {
-    public function testWriteToArray(){
-
+    public function testWriteToArray()
+    {
         $emptyArr = [];
 
         $writer = new ArrayWriter($emptyArr);
@@ -20,7 +19,6 @@ class ArrayWriterTest extends TestCase
         $this->assertEquals([
             ['value1'],
             ['value2']
-        ],$emptyArr);
-
+        ], $emptyArr);
     }
 }

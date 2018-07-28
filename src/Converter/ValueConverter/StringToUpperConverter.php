@@ -3,10 +3,12 @@
 
 namespace Jackal\Copycat\Converter\ValueConverter;
 
-class StringToObjectConverter implements ConverterInterface
+
+class StringToUpperConverter implements ConverterInterface
 {
+
     public function __invoke($value)
     {
-        return unserialize($value);
+        return mb_strtoupper($value);
     }
 }

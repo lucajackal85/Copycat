@@ -3,7 +3,6 @@
 
 namespace Jackal\Copycat\Writer;
 
-
 class SQLLoadDataLocalWriter extends CSVFileWriter
 {
     protected $sqlOutputFilePathname;
@@ -13,12 +12,12 @@ class SQLLoadDataLocalWriter extends CSVFileWriter
     protected $autoincrementField;
     protected $dropRecords = false;
 
-    protected $headers;
+    protected $headers = [];
 
-    public function __construct($tablename,$outputFilePathname, $replaceFile = false,$autoincrementField = null,$dropRecords = false)
+    public function __construct($tablename, $outputFilePathname, $replaceFile = false, $autoincrementField = null, $dropRecords = false)
     {
-        if(!is_dir(dirname($outputFilePathname))){
-            mkdir(dirname($outputFilePathname),0775,true);
+        if (!is_dir(dirname($outputFilePathname))) {
+            mkdir(dirname($outputFilePathname), 0775, true);
         }
 
         touch($outputFilePathname);
@@ -26,7 +25,7 @@ class SQLLoadDataLocalWriter extends CSVFileWriter
         $outputFile = new \SplFileInfo($outputFilePathname);
 
         $localPath = realpath($outputFile->getPathname());
-        $csvOutputFilePathname = str_replace('.'.$outputFile->getExtension(),'.csv',$localPath);
+        $csvOutputFilePathname = str_replace('.'.$outputFile->getExtension(), '.csv', $localPath);
 
         parent::__construct($csvOutputFilePathname, $replaceFile, $this->delimiter, $this->enclosure, true);
         $this->sqlOutputFilePathname = $localPath;
@@ -37,7 +36,7 @@ class SQLLoadDataLocalWriter extends CSVFileWriter
 
     public function writeItem(array $item)
     {
-        if($this->index == 0){
+        if ($this->index == 0) {
             $this->headers = array_keys($item);
         }
         parent::writeItem($item);
@@ -47,10 +46,10 @@ class SQLLoadDataLocalWriter extends CSVFileWriter
     {
         parent::finish();
 
-        $dropRecordsString = $this->dropRecords ? sprintf('DELETE FROM %s;',$this->tablename) : null;
-        $autoincrementtring = $this->autoincrementField ? sprintf('SET %s = NULL',$this->autoincrementField) : null;
+        $dropRecordsString = $this->dropRecords ? sprintf('DELETE FROM %s;', $this->tablename) : null;
+        $autoincrementtring = $this->autoincrementField ? sprintf('SET %s = NULL', $this->autoincrementField) : null;
         $rowsToIgnore = $this->writeHeader ? 1 : 0;
-        $headers = '('.implode(', ' ,$this->headers).')';
+        $headers = '('.implode(', ', $this->headers).')';
 
         $contents = <<<SQL
 {$dropRecordsString}        
@@ -68,8 +67,6 @@ $headers
 $autoincrementtring
 ;
 SQL;
-        file_put_contents($this->sqlOutputFilePathname,$contents);
+        file_put_contents($this->sqlOutputFilePathname, $contents);
     }
-
-
 }

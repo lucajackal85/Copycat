@@ -3,7 +3,6 @@
 
 namespace Jackal\Copycat\Filter\ValueFilter;
 
-
 abstract class AbstractFilter implements FilterInterface
 {
     protected $fieldName;

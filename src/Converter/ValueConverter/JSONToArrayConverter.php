@@ -3,10 +3,12 @@
 
 namespace Jackal\Copycat\Converter\ValueConverter;
 
-class StringToObjectConverter implements ConverterInterface
+
+class JSONToArrayConverter implements ConverterInterface
 {
+
     public function __invoke($value)
     {
-        return unserialize($value);
+        return json_decode($value,true);
     }
 }
