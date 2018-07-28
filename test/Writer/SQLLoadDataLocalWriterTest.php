@@ -18,10 +18,12 @@ class SQLLoadDataLocalWriterTest extends AbstractFileTestCase
 LOAD DATA LOCAL INFILE '".__DIR__."/tmp.csv' 
 INTO TABLE pluto
 CHARACTER SET utf8
-FIELDS TERMINATED BY '\\t'
-ENCLOSED BY '\"'
-LINES TERMINATED BY '\\n'
-ESCAPED BY '\\'
+FIELDS 
+    TERMINATED BY '\\t'
+    ENCLOSED BY '\"'
+    ESCAPED BY ''
+LINES 
+    TERMINATED BY '\\n'
 IGNORE 1 LINES
 (col1, col2)
 
