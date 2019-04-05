@@ -1,5 +1,8 @@
 comlanguage: php
 
+services:
+  - docker
+
 install:
   - composer install
 
