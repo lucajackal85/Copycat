@@ -1,7 +1,7 @@
-comlanguage: php
+language: php
 
-services:
-  - docker
+php:
+  - 5.5.9
 
 install:
   - composer install
