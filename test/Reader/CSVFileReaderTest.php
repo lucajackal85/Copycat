@@ -35,7 +35,7 @@ cell13,cell23,cell33,cell43
 ');
 
         $reader = new CSVFileReader(new \SplFileObject($this->tmpFile),[
-            CSVFileReader::OPT_HEADER => false
+            'header' => false
         ]);
 
         $this->assertEquals(['a','b','c','d'],$reader->get(0));
