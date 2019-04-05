@@ -9,7 +9,7 @@ class SQLLoadDataLocalWriterTest extends AbstractFileTestCase
 {
     public function testWriteFileDefaults()
     {
-        $writer = new SQLLoadDataLocalWriter('pluto', $this->tmpFile, false);
+        $writer = new SQLLoadDataLocalWriter('pluto', $this->tmpFile);
         $writer->prepare();
         $writer->writeItem(['col1' => '1','col2' => '2']);
         $writer->finish();

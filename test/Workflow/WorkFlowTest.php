@@ -34,7 +34,7 @@ class WorkFlowTest extends TestCase
         $workflow->process();
     }
 
-    public function testWokFlowFilter(){
+    public function testWorkFlowFilter(){
 
         $mockReader = $this->getMockBuilder(ReaderInterface::class)->getMock();
         $mockReader->expects($this->any())->method('valid')->willReturnOnConsecutiveCalls(true, false);

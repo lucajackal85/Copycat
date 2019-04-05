@@ -18,7 +18,10 @@ class CSVFileWriterTest extends AbstractFileTestCase
         $delimiter = ';';
         $enclosure = '"';
 
-        $writer = new CSVFileWriter($this->tmpFile, false, $delimiter, $enclosure);
+        $writer = new CSVFileWriter($this->tmpFile, [
+            CSVFileWriter::OPT_DELIMITER => $delimiter,
+            CSVFileWriter::OPT_ENCLOSURE => $enclosure
+        ]);
         $writer->prepare();
         $writer->writeItem($toWrite[0], 1, 2);
         $writer->writeItem($toWrite[1], 2, 2);
@@ -42,7 +45,11 @@ class CSVFileWriterTest extends AbstractFileTestCase
         $delimiter = ';';
         $enclosure = '"';
 
-        $writer = new CSVFileWriter($this->tmpFile, false, $delimiter, $enclosure, false);
+        $writer = new CSVFileWriter($this->tmpFile, [
+            CSVFileWriter::OPT_DELIMITER => $delimiter,
+            CSVFileWriter::OPT_ENCLOSURE => $enclosure,
+            CSVFileWriter::OPT_HEADER => false
+        ]);
         $writer->prepare();
         $writer->writeItem($toWrite[0], 1, 2);
         $writer->writeItem($toWrite[1], 2, 2);
