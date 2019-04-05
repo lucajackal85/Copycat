@@ -22,4 +22,18 @@ class ArrayReaderTest extends TestCase
         $this->assertEquals(null, $reader->get(3));
         $this->assertEquals(3, $reader->count());
     }
+
+    public function testIteration_NoValues()
+    {
+        $reader = new ArrayReader();
+        $reader->addItem(['cell11','cell21','cell31','cell41']);
+        $reader->addItem(['cell12','cell22','cell32','cell42']);
+        $reader->addItem(['cell13','cell23','cell33','cell43']);
+
+        $this->assertEquals(['cell11','cell21','cell31','cell41'], $reader->get(0));
+        $this->assertEquals(['cell12','cell22','cell32','cell42'], $reader->get(1));
+        $this->assertEquals(['cell13','cell23','cell33','cell43'], $reader->get(2));
+        $this->assertEquals(null, $reader->get(3));
+        $this->assertEquals(3, $reader->count());
+    }
 }

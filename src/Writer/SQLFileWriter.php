@@ -3,14 +3,10 @@
 
 namespace Jackal\Copycat\Writer;
 
-use http\Exception\InvalidArgumentException;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class SQLFileWriter implements WriterInterface
 {
-    const OPT_REPLACE_FILE = 'replace_file';
-    const OPT_DEFINED_COLUMNS = 'defined_columns';
-    const OPT_EXCEPTION_ON_DIFF_COLUMNS = 'exception_on_diff_columns';
-
     protected $outputFilePathname;
     protected $tablename;
     protected $options;
@@ -21,11 +17,16 @@ class SQLFileWriter implements WriterInterface
     {
         $this->tablename = $tablename;
         $this->outputFilePathname = $outputFilePathname;
-        $this->options = array_merge([
-            self::OPT_REPLACE_FILE => false,
-            self::OPT_DEFINED_COLUMNS => [],
-            self::OPT_EXCEPTION_ON_DIFF_COLUMNS => false
-        ],$options);
+
+        $resolver = new OptionsResolver();
+        $resolver->setDefaults([
+            'replace_file' => false,
+            'columns' => [],
+            'exception_on_extra_columns' => false,
+            'drop_data' => false
+        ]);
+
+        $this->options = $resolver->resolve($options);
     }
 
     private function appendRow($content)
@@ -36,15 +37,15 @@ class SQLFileWriter implements WriterInterface
     public function writeItem(array $item)
     {
         if ($this->index == 0) {
-            if (!$this->options[self::OPT_DEFINED_COLUMNS]) {
+            if (!$this->options['columns']) {
                 $this->cols = array_keys($item);
             } else {
-                $this->cols = $this->options[self::OPT_DEFINED_COLUMNS];
+                $this->cols = $this->options['columns'];
             }
         }
 
         //raise exception on extra columns
-        if($this->options[self::OPT_EXCEPTION_ON_DIFF_COLUMNS]){
+        if($this->options['exception_on_extra_columns']){
             $extraColumns = [];
             foreach (array_keys($item) as $itemKey){
                 if(!in_array($itemKey,$this->cols)){
@@ -76,8 +77,10 @@ class SQLFileWriter implements WriterInterface
 
 
         if ($this->index == 0) {
-            $headString = sprintf("insert into %s (%s) values\n", $this->tablename, implode(', ', array_keys($item)));
-            $this->appendRow($headString);
+            if($this->options['drop_data']){
+                $this->appendRow(sprintf("delete from %s\n",$this->tablename));
+            }
+            $this->appendRow(sprintf("insert into %s (%s) values\n", $this->tablename, implode(', ', array_keys($item))));
         } else {
             $this->appendRow(",\n");
         }
@@ -108,7 +111,7 @@ class SQLFileWriter implements WriterInterface
         }
 
         $fileExists = file_exists($this->outputFilePathname);
-        if ($fileExists and !$this->options[self::OPT_REPLACE_FILE]) {
+        if ($fileExists and !$this->options['replace_file']) {
             throw new \Exception('File '.realpath($this->outputFilePathname).' already exists');
         }
 

@@ -8,7 +8,7 @@ class ArrayWriter implements WriterInterface
     /**
      * @var array
      */
-    private $outItems;
+    protected $outItems;
 
     public function __construct(&$arrayToWrite)
     {

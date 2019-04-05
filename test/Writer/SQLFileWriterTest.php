@@ -50,8 +50,8 @@ class SQLFileWriterTest extends AbstractFileTestCase
 
     public function testWriteSQLFile_DefinedColumns(){
         $writer = new SQLFileWriter('pippo', $this->tmpFile,[
-            SQLFileWriter::OPT_DEFINED_COLUMNS => ['col1','col2','col3','col4','col5','col6'],
-            SQLFileWriter::OPT_EXCEPTION_ON_DIFF_COLUMNS => false
+            'columns' => ['col1','col2','col3','col4','col5','col6'],
+            'exception_on_extra_columns' => false
         ]);
         $writer->writeItem(['col1' => '1','col2' => '2']);
         $writer->writeItem(['col3' => '3','col4' => '4']);
@@ -71,10 +71,24 @@ class SQLFileWriterTest extends AbstractFileTestCase
         $this->expectExceptionMessage('Row 2 had extra columns "col3". (Defined columns: "col1", "col2")');
 
         $writer = new SQLFileWriter('pippo', $this->tmpFile,[
-            SQLFileWriter::OPT_DEFINED_COLUMNS => ['col1','col2'],
-            SQLFileWriter::OPT_EXCEPTION_ON_DIFF_COLUMNS => true
+            'columns' => ['col1','col2'],
+            'exception_on_extra_columns' => true
         ]);
         $writer->writeItem(['col1' => '1','col2' => '2']);
         $writer->writeItem(['col2' => '2','col3' => 'this will raise exception']);
+    }
+
+    public function testWriteSQLWithDeleteData()
+    {
+        $writer = new SQLFileWriter('pippo', $this->tmpFile,[
+            'drop_data' => true
+        ]);
+        $writer->writeItem(['col1' => '1','col2' => '2']);
+        $writer->writeItem(['col1' => '3','col2' => '4']);
+
+        $this->assertFileContent("delete from pippo
+insert into pippo (col1, col2) values
+(\"1\", \"2\"),
+(\"3\", \"4\")");
     }
 }

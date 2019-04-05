@@ -5,13 +5,19 @@ namespace Jackal\Copycat\Tests\Reader;
 
 
 use Jackal\Copycat\Reader\CSVFileReader;
-use PHPUnit\Framework\TestCase;
+use Jackal\Copycat\Tests\Writer\AbstractFileTestCase;
 
-class CSVFileReaderTest extends TestCase
+class CSVFileReaderTest extends AbstractFileTestCase
 {
     public function testIteration(){
 
-        $reader = new CSVFileReader(new \SplFileObject(__DIR__.'/CSVFileReaderTest.csv'));
+        file_put_contents($this->tmpFile,'a,b,c,d
+cell11,cell21,cell31,cell41
+cell12,cell22,cell32,cell42
+cell13,cell23,cell33,cell43
+');
+
+        $reader = new CSVFileReader(new \SplFileObject($this->tmpFile));
 
         $this->assertEquals(['a' => 'cell11','b' => 'cell21','c' => 'cell31','d' => 'cell41'], $reader->get(0));
         $this->assertEquals(['a' => 'cell12','b' => 'cell22','c' => 'cell32','d' => 'cell42'], $reader->get(1));
@@ -22,7 +28,13 @@ class CSVFileReaderTest extends TestCase
 
     public function testIteration_NoHeader(){
 
-        $reader = new CSVFileReader(new \SplFileObject(__DIR__.'/CSVFileReaderTest.csv'),[
+        file_put_contents($this->tmpFile,'a,b,c,d
+cell11,cell21,cell31,cell41
+cell12,cell22,cell32,cell42
+cell13,cell23,cell33,cell43
+');
+
+        $reader = new CSVFileReader(new \SplFileObject($this->tmpFile),[
             CSVFileReader::OPT_HEADER => false
         ]);
 

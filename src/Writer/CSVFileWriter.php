@@ -3,6 +3,8 @@
 
 namespace Jackal\Copycat\Writer;
 
+use Symfony\Component\OptionsResolver\OptionsResolver;
+
 class CSVFileWriter implements WriterInterface
 {
     protected $outputFilePathname;
@@ -11,19 +13,17 @@ class CSVFileWriter implements WriterInterface
 
     protected $options = [];
 
-    const OPT_REPLACE_FILE = 'replace_file';
-    const OPT_DELIMITER = 'delimiter';
-    const OPT_ENCLOSURE = 'enclosure';
-    const OPT_HEADER = 'write_header';
-
     public function __construct($outputFilePathname, array $options = [])
     {
-        $this->options = array_merge([
-            self::OPT_REPLACE_FILE => false,
-            self::OPT_DELIMITER => ',',
-            self::OPT_ENCLOSURE => '"',
-            self::OPT_HEADER => true
-        ],$options);
+        $resolver = new OptionsResolver();
+        $resolver->setDefaults([
+            'replace_file' => false,
+            'delimiter' => ',',
+            'enclosure' => '"',
+            'header' => true
+        ]);
+
+        $this->options = $resolver->resolve($options);
 
         $this->outputFilePathname = $outputFilePathname;
 
@@ -39,7 +39,7 @@ class CSVFileWriter implements WriterInterface
         }
 
         $fileExists = file_exists($this->outputFilePathname);
-        if ($fileExists and !$this->options[self::OPT_REPLACE_FILE]) {
+        if ($fileExists and !$this->options['replace_file']) {
             throw new \Exception('File '.realpath($this->outputFilePathname).' already exists');
         }
 
@@ -52,10 +52,10 @@ class CSVFileWriter implements WriterInterface
 
     public function writeItem(array $item)
     {
-        if ($this->index == 0 and $this->options[self::OPT_HEADER]) {
-            fputcsv($this->handle, array_keys($item), $this->options[self::OPT_DELIMITER], $this->options[self::OPT_ENCLOSURE]);
+        if ($this->index == 0 and $this->options['header']) {
+            fputcsv($this->handle, array_keys($item), $this->options['delimiter'], $this->options['enclosure']);
         }
-        fputcsv($this->handle, array_values($item), $this->options[self::OPT_DELIMITER], $this->options[self::OPT_ENCLOSURE]);
+        fputcsv($this->handle, array_values($item), $this->options['delimiter'], $this->options['enclosure']);
         $this->index++;
     }
 
