@@ -1,0 +1,7 @@
+comlanguage: php
+
+install:
+  - composer install
+
+script:
+  - bin/phpunit test
