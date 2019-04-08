@@ -15,16 +15,18 @@ class LowerThanFilter extends AbstractFilter
 
     public function __invoke($value)
     {
+        $val = $value[$this->fieldName];
+
         switch (true) {
-            case !isset($value[$this->fieldName]):
+            case !isset($val):
                 return false;
-            case is_numeric($value[$this->fieldName]) or is_string($value[$this->fieldName]):
-                return $value[$this->fieldName] < $this->comparedValue;
-            case $value[$this->fieldName] instanceof \DateTime:{
+            case is_numeric($val) or is_string($val):
+                return $val < $this->comparedValue;
+            case $val instanceof \DateTime:{
                 if ($this->comparedValue instanceof \DateTime) {
                     $this->comparedValue = $this->comparedValue->format('Y-m-d H:i:s');
                 }
-                return ($value[$this->fieldName])->format('Y-m-d H:i:s') < $this->comparedValue;
+                return $val->format('Y-m-d H:i:s') < $this->comparedValue;
             }
         }
     }
