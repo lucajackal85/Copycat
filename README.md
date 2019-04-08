@@ -2,7 +2,7 @@
 A simple PHP to "copy" data from one source to another
 
 ### Requirement
-PHP >= **5.5.9**
+PHP >= **5.6**
 
 ## Getting Started
 Install library with composer
