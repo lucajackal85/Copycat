@@ -3,10 +3,12 @@
 
 namespace Jackal\Copycat\Converter\ValueConverter;
 
-class StringToObjectConverter implements ConverterInterface
+class StringToObjectConverter extends AbstractConverter
 {
     public function __invoke($value)
     {
-        return unserialize($value);
+        $value[$this->fieldName] = unserialize($value[$this->fieldName]);
+
+        return $value;
     }
 }

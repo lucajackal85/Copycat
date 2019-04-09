@@ -3,10 +3,12 @@
 
 namespace Jackal\Copycat\Converter\ValueConverter;
 
-class ObjectToStringConverter implements ConverterInterface
+class ObjectToStringConverter extends AbstractConverter
 {
     public function __invoke($value)
     {
-        return serialize($value);
+        $value[$this->fieldName] = serialize($value[$this->fieldName]);
+
+        return $value;
     }
 }

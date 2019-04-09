@@ -63,19 +63,20 @@ With Converter you can modify values to the output.
 ```
 /*[...]*/
 /*Define custom filter*/
-$workflow->addConverter('col1',new DatetimeToStringConverter('Y-m-d H:i:s'));
+$workflow->addConverter(new DatetimeToStringConverter('col1'));
 /*[...]*/
 ```
 You can set your own converter
 ```
 /*[...]*/
 //apply custom converter
-$workflow->addConverter('col1',function ($value){
-    if($value == 'to convert'){
-        return 'converted';
-    }else{
-        return $value;
+$workflow->addConverter(function ($values){
+    foreach ($values as &$value) {
+        if ($value == 'to convert') {
+            $value = 'converted';
+        }
     }
+    return $values;
 });
 /*[...]*/
 ```

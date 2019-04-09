@@ -4,11 +4,13 @@
 namespace Jackal\Copycat\Converter\ValueConverter;
 
 
-class ArrayToJSONConverter implements ConverterInterface
+class ArrayToJSONConverter extends AbstractConverter
 {
 
     public function __invoke($value)
     {
-        return json_encode($value);
+        $value[$this->fieldName] = json_encode($value[$this->fieldName]);
+
+        return $value;
     }
 }

@@ -7,27 +7,14 @@ use PHPUnit\Framework\TestCase;
 
 class ConversionMapTest extends TestCase
 {
-    public function testRaiseExceptionOnFieldNotFound()
-    {
-        $this->expectException(\RuntimeException::class);
-
-        $map = new ConversionMap();
-        $map->add('pippo', function ($values) {
-            //do nothing
-        });
-
-        $val = ['pluto' => 'xxx'];
-        $map->apply($val);
-    }
-
     public function testNotRaiseExceptionOnFieldValueNull()
     {
         $map = new ConversionMap();
-        $map->add('pippo', function ($value) {
-            $this->assertNull($value);
+        $map->add(function ($value) {
+            $this->assertEquals([null],$value);
         });
 
-        $val = ['pippo' => null];
+        $val = [null];
         $map->apply($val);
     }
 }

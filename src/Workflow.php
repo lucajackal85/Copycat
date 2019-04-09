@@ -55,9 +55,9 @@ class Workflow
      * @param $column
      * @param callable $converter
      */
-    public function addConverter($column, callable $converter)
+    public function addConverter(callable $converter)
     {
-        $this->conversionMap->add($column, $converter);
+        $this->conversionMap->add($converter);
     }
 
     /**
@@ -80,9 +80,10 @@ class Workflow
 
         foreach ($this->reader as $k => $row) {
             foreach ($this->writers as $writer) {
-                $this->conversionMap->apply($row);
-                if ($this->filterMap->apply($row)) {
-                    $writer->writeItem($row);
+                $copyRow = $row;
+                $this->conversionMap->apply($copyRow);
+                if ($this->filterMap->apply($copyRow)) {
+                    $writer->writeItem($copyRow);
                 }
             }
         }

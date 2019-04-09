@@ -4,12 +4,12 @@
 namespace Jackal\Copycat\Converter\ValueConverter;
 
 
-class StringToUpperConverter extends AbstractConverter
+class StringToDateTimeConverter extends AbstractConverter
 {
 
     public function __invoke($value)
     {
-        $value[$this->fieldName] = mb_strtoupper($value[$this->fieldName]);
+        $value[$this->fieldName] = new \DateTime($value[$this->fieldName]);
 
         return $value;
     }

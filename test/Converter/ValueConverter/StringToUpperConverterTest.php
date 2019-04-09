@@ -11,9 +11,9 @@ class StringToUpperConverterTest extends TestCase
 {
     public function testStringToUpperConverter(){
 
-        $converter = new StringToUpperConverter();
-        $this->assertEquals('AEIOU',$converter('aeiou'));
+        $converter = new StringToUpperConverter('a');
+        $this->assertEquals(['a' => 'AEIOU'],$converter(['a' => 'aeiou']));
 
-        $this->assertEquals('ÀÈÌÒÙ',$converter('àèìòù'));
+        $this->assertEquals(['a' => 'ÀÈÌÒÙ'],$converter(['a' => 'àèìòù']));
     }
 }

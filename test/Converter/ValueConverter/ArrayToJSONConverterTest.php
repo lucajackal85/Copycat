@@ -11,8 +11,8 @@ class ArrayToJSONConverterTest extends TestCase
 {
     public function testArrayToJSON(){
 
-        $converter = new ArrayToJSONConverter();
+        $converter = new ArrayToJSONConverter('colA');
 
-        $this->assertEquals('{"colA":"valueA"}',$converter(['colA' => 'valueA']));
+        $this->assertEquals(['colA' => '["valueA"]'],$converter(['colA' => ['valueA']]));
     }
 }
