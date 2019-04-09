@@ -3,15 +3,14 @@
 
 namespace Jackal\Copycat\Tests\Sorter;
 
-
 use Jackal\Copycat\Sorter\ValueSorter\AscendingSorter;
 use Jackal\Copycat\Sorter\ValueSorter\DescendingSorter;
 use PHPUnit\Framework\TestCase;
 
 class SorterTest extends TestCase
 {
-    public function testAscendingSortColum(){
-
+    public function testAscendingSortColum()
+    {
         $values = [
             ['a' => 2, ],
             ['a' => 1, ],
@@ -24,11 +23,11 @@ class SorterTest extends TestCase
             ['a' => 1],
             ['a' => 2],
             ['a' => 3],
-        ],$values);
+        ], $values);
     }
 
-    public function testDescendingSortColum(){
-
+    public function testDescendingSortColum()
+    {
         $values = [
             ['a' => 2, ],
             ['a' => 1, ],
@@ -41,18 +40,18 @@ class SorterTest extends TestCase
             ['a' => 3],
             ['a' => 2],
             ['a' => 1],
-        ],$values);
+        ], $values);
     }
 
-    public function testAscendingSortMultiColum(){
-
+    public function testAscendingSortMultiColum()
+    {
         $values = [
             ['a' => 2, 'b' => 3],
             ['a' => 2, 'b' => 1],
             ['a' => 3, 'b' => 2],
             ['a' => 1, 'b' => 2],
         ];
-        $sorter = new AscendingSorter('a','b');
+        $sorter = new AscendingSorter('a', 'b');
         $sorter($values);
 
         $this->assertEquals([
@@ -60,18 +59,18 @@ class SorterTest extends TestCase
             ['a' => 2,'b' => 1],
             ['a' => 2,'b' => 3],
             ['a' => 3,'b' => 2],
-        ],$values);
+        ], $values);
     }
 
-    public function testDescendingSortMultiColum(){
-
+    public function testDescendingSortMultiColum()
+    {
         $values = [
             ['a' => 2, 'b' => 3],
             ['a' => 2, 'b' => 1],
             ['a' => 3, 'b' => 2],
             ['a' => 1, 'b' => 2],
         ];
-        $sorter = new DescendingSorter('a','b');
+        $sorter = new DescendingSorter('a', 'b');
         $sorter($values);
 
         $this->assertEquals([
@@ -79,6 +78,6 @@ class SorterTest extends TestCase
             ['a' => 2,'b' => 3],
             ['a' => 2,'b' => 1],
             ['a' => 1,'b' => 2],
-        ],$values);
+        ], $values);
     }
 }

@@ -12,7 +12,7 @@ class DatetimeToStringConverterTest extends TestCase
     public function testItShouldConvertDateTime()
     {
         $dt = new \DateTime('2018-01-02 13:23:11');
-        $converter = new DatetimeToStringConverter('b','H:i:s d/m/Y');
+        $converter = new DatetimeToStringConverter('b', 'H:i:s d/m/Y');
 
         $this->assertEquals(['b' => '13:23:11 02/01/2018'], $converter(['b' => $dt]));
     }
@@ -24,6 +24,5 @@ class DatetimeToStringConverterTest extends TestCase
         $dt = ['c' => 'invalid value'];
         $converter = new DatetimeToStringConverter('c');
         $converter($dt);
-
     }
 }

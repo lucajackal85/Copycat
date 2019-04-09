@@ -11,7 +11,7 @@ class ConversionMapTest extends TestCase
     {
         $map = new ConversionMap();
         $map->add(function ($value) {
-            $this->assertEquals([null],$value);
+            $this->assertEquals([null], $value);
         });
 
         $val = [null];

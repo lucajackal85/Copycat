@@ -39,8 +39,8 @@ class WorkFlowTest extends TestCase
         $workflow->process();
     }
 
-    public function testWorkFlowFilter(){
-
+    public function testWorkFlowFilter()
+    {
         $arr = [['col1' => null,'col2' => 'value6']];
         $mockReader = $this->getMockBuilder(ReaderInterface::class)->getMock();
         $mockReader->expects($this->any())->method('valid')->willReturnOnConsecutiveCalls(true, false);
@@ -55,7 +55,8 @@ class WorkFlowTest extends TestCase
         $workflow->process();
     }
 
-    public function testWithMultipleConverter(){
+    public function testWithMultipleConverter()
+    {
         $reader = new \Jackal\Copycat\Reader\ArrayReader([
             [
                 'a' => 1,
@@ -87,21 +88,23 @@ class WorkFlowTest extends TestCase
                 'd' => 'CIAO',
                 'e' => [1,2,3]
             ]
-        ],$ouputArray);
+        ], $ouputArray);
 
-        $this->assertEquals(1,json_decode($ouputJson,true)[0]['a']);
-        $this->assertEquals(serialize(new \StdClass()),json_decode($ouputJson,true)[0]['b']);
-        $this->assertEquals([
+        $this->assertEquals(1, json_decode($ouputJson, true)[0]['a']);
+        $this->assertEquals(serialize(new \StdClass()), json_decode($ouputJson, true)[0]['b']);
+        $this->assertEquals(
+            [
                 'date' => '2018-01-01 00:00:00.000000',
                 'timezone_type' => 3,
                 'timezone' => 'UTC'
-            ],json_decode($ouputJson,true)[0]['c']
+            ],
+            json_decode($ouputJson, true)[0]['c']
         );
-        $this->assertEquals('CIAO',json_decode($ouputJson,true)[0]['d']);
+        $this->assertEquals('CIAO', json_decode($ouputJson, true)[0]['d']);
     }
 
-    public function testCustomConverter(){
-
+    public function testCustomConverter()
+    {
         $reader = new \Jackal\Copycat\Reader\ArrayReader([
             [
                 'a' => 'to convert',
@@ -111,7 +114,7 @@ class WorkFlowTest extends TestCase
         ]);
 
         $workflow = new \Jackal\Copycat\Workflow($reader);
-        $workflow->addConverter(function ($values){
+        $workflow->addConverter(function ($values) {
             foreach ($values as &$value) {
                 if ($value == 'to convert') {
                     $value = 'converted';
@@ -123,8 +126,8 @@ class WorkFlowTest extends TestCase
         $workflow->addWriter(new ArrayWriter($arrayToWrite));
         $workflow->process();
 
-        $this->assertEquals('converted',$arrayToWrite[0]['a']);
-        $this->assertEquals(2,$arrayToWrite[0]['b']);
-        $this->assertEquals(3,$arrayToWrite[0]['c']);
+        $this->assertEquals('converted', $arrayToWrite[0]['a']);
+        $this->assertEquals(2, $arrayToWrite[0]['b']);
+        $this->assertEquals(3, $arrayToWrite[0]['c']);
     }
 }

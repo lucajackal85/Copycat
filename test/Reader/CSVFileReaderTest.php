@@ -3,15 +3,14 @@
 
 namespace Jackal\Copycat\Tests\Reader;
 
-
 use Jackal\Copycat\Reader\CSVFileReader;
 use Jackal\Copycat\Tests\Writer\AbstractFileTestCase;
 
 class CSVFileReaderTest extends AbstractFileTestCase
 {
-    public function testIteration(){
-
-        file_put_contents($this->tmpFile,'a,b,c,d
+    public function testIteration()
+    {
+        file_put_contents($this->tmpFile, 'a,b,c,d
 cell11,cell21,cell31,cell41
 cell12,cell22,cell32,cell42
 cell13,cell23,cell33,cell43
@@ -26,19 +25,19 @@ cell13,cell23,cell33,cell43
         $this->assertEquals(3, $reader->count());
     }
 
-    public function testIteration_NoHeader(){
-
-        file_put_contents($this->tmpFile,'a,b,c,d
+    public function testIteration_NoHeader()
+    {
+        file_put_contents($this->tmpFile, 'a,b,c,d
 cell11,cell21,cell31,cell41
 cell12,cell22,cell32,cell42
 cell13,cell23,cell33,cell43
 ');
 
-        $reader = new CSVFileReader(new \SplFileObject($this->tmpFile),[
+        $reader = new CSVFileReader(new \SplFileObject($this->tmpFile), [
             'header' => false
         ]);
 
-        $this->assertEquals(['a','b','c','d'],$reader->get(0));
+        $this->assertEquals(['a','b','c','d'], $reader->get(0));
         $this->assertEquals(['cell11','cell21','cell31','cell41'], $reader->get(1));
         $this->assertEquals(['cell12','cell22','cell32','cell42'], $reader->get(2));
         $this->assertEquals(['cell13','cell23','cell33','cell43'], $reader->get(3));

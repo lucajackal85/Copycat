@@ -12,7 +12,7 @@ class ArrayWriter implements WriterInterface
 
     public function __construct(&$arrayToWrite)
     {
-        if(!is_array($arrayToWrite)){
+        if (!is_array($arrayToWrite)) {
             $arrayToWrite = [];
         }
         $this->outItems = &$arrayToWrite;

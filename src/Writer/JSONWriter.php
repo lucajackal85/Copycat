@@ -14,6 +14,4 @@ class JSONWriter extends ArrayWriter
     {
         $this->outItems = json_encode($this->outItems);
     }
-
-
 }

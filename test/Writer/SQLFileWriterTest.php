@@ -18,7 +18,8 @@ class SQLFileWriterTest extends AbstractFileTestCase
 (\"3\", \"4\")");
     }
 
-    public function testWriteSQLFile_FillWithNulls(){
+    public function testWriteSQLFile_FillWithNulls()
+    {
         $writer = new SQLFileWriter('pippo', $this->tmpFile);
         $writer->writeItem(['col1' => '1','col2' => '2']);
         $writer->writeItem(['col1' => '3','col2' => null]);
@@ -28,7 +29,8 @@ class SQLFileWriterTest extends AbstractFileTestCase
 (\"3\", null)");
     }
 
-    public function testWriteSQLFile_FillWithSkippedColumn(){
+    public function testWriteSQLFile_FillWithSkippedColumn()
+    {
         $writer = new SQLFileWriter('pippo', $this->tmpFile);
         $writer->writeItem(['col1' => '1','col2' => '2']);
         $writer->writeItem(['col1' => '3','col2' => null,'col3' => 'this will not be added']);
@@ -38,7 +40,8 @@ class SQLFileWriterTest extends AbstractFileTestCase
 (\"3\", null)");
     }
 
-    public function testWriteSQLFile_NoColumnsName(){
+    public function testWriteSQLFile_NoColumnsName()
+    {
         $writer = new SQLFileWriter('pippo', $this->tmpFile);
         $writer->writeItem(['1','2']);
         $writer->writeItem(['3','4']);
@@ -48,8 +51,9 @@ class SQLFileWriterTest extends AbstractFileTestCase
 (\"3\", \"4\")");
     }
 
-    public function testWriteSQLFile_DefinedColumns(){
-        $writer = new SQLFileWriter('pippo', $this->tmpFile,[
+    public function testWriteSQLFile_DefinedColumns()
+    {
+        $writer = new SQLFileWriter('pippo', $this->tmpFile, [
             'columns' => ['col1','col2','col3','col4','col5','col6'],
             'exception_on_extra_columns' => false
         ]);
@@ -65,12 +69,12 @@ class SQLFileWriterTest extends AbstractFileTestCase
 (null, null, null, null, null, \"6\")");
     }
 
-    public function testRaiseExceptionOnExtraColumns(){
-
+    public function testRaiseExceptionOnExtraColumns()
+    {
         $this->expectException(\InvalidArgumentException::class);
         $this->expectExceptionMessage('Row 2 had extra columns "col3". (Defined columns: "col1", "col2")');
 
-        $writer = new SQLFileWriter('pippo', $this->tmpFile,[
+        $writer = new SQLFileWriter('pippo', $this->tmpFile, [
             'columns' => ['col1','col2'],
             'exception_on_extra_columns' => true
         ]);
@@ -80,7 +84,7 @@ class SQLFileWriterTest extends AbstractFileTestCase
 
     public function testWriteSQLWithDeleteData()
     {
-        $writer = new SQLFileWriter('pippo', $this->tmpFile,[
+        $writer = new SQLFileWriter('pippo', $this->tmpFile, [
             'drop_data' => true
         ]);
         $writer->writeItem(['col1' => '1','col2' => '2']);

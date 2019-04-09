@@ -3,7 +3,6 @@
 
 namespace Jackal\Copycat\Sorter;
 
-
 class SorterMap
 {
     /**
@@ -16,13 +15,14 @@ class SorterMap
         $this->map[] = $sorter;
     }
 
-    public function hasSorter(){
+    public function hasSorter()
+    {
         return count($this->map) > 0;
     }
 
     public function apply(array &$values)
     {
-        foreach ($this->map as $sorter){
+        foreach ($this->map as $sorter) {
             $sorter($values);
         }
     }

@@ -3,7 +3,6 @@
 
 namespace Jackal\Copycat\Tests\Writer;
 
-
 use Jackal\Copycat\Writer\ArrayWriter;
 use Jackal\Copycat\Writer\JSONWriter;
 use PHPUnit\Framework\TestCase;

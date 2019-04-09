@@ -7,7 +7,7 @@ class DatetimeToStringConverter extends AbstractConverter
 {
     protected $format;
 
-    public function __construct($fieldName,$format = 'Y-m-d H:i:s')
+    public function __construct($fieldName, $format = 'Y-m-d H:i:s')
     {
         parent::__construct($fieldName);
         $this->format = $format;
@@ -15,7 +15,6 @@ class DatetimeToStringConverter extends AbstractConverter
 
     public function __invoke($value)
     {
-
         if (!$value[$this->fieldName]) {
             return null;
         }

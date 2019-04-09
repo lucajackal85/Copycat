@@ -8,7 +8,8 @@ abstract class IteratorReader implements ReaderInterface
     private $cursor = 0;
     protected $items = [];
 
-    public function addItem(array $item){
+    public function addItem(array $item)
+    {
         $this->items[] = $item;
     }
 
@@ -24,7 +25,8 @@ abstract class IteratorReader implements ReaderInterface
         return $this->items[$index];
     }
 
-    public function all(){
+    public function all()
+    {
         return $this->items;
     }
 

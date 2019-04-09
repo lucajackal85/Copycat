@@ -3,7 +3,6 @@
 
 namespace Jackal\Copycat\Reader;
 
-
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class CSVFileReader extends ArrayReader
@@ -11,7 +10,7 @@ class CSVFileReader extends ArrayReader
     protected $fileObject;
     protected $options;
 
-    public function __construct(\SplFileObject $fileObject,array $options = [])
+    public function __construct(\SplFileObject $fileObject, array $options = [])
     {
         $resolver = new OptionsResolver();
         $resolver->setDefaults([
@@ -25,23 +24,24 @@ class CSVFileReader extends ArrayReader
         $this->fileObject = $fileObject;
 
         $headers = [];
-        if($this->options['header']){
+        if ($this->options['header']) {
             $headers = $this->readCurrentRow();
         }
 
         while (($data = $this->readCurrentRow()) != false) {
-            if($headers) {
+            if ($headers) {
                 $this->items[] = array_combine($headers, $data);
-            }else{
+            } else {
                 $this->items[] = $data;
             }
         }
     }
 
-    protected function readCurrentRow(){
-        $data = $this->fileObject->fgetcsv($this->options['delimiter'],$this->options['enclosure']);
+    protected function readCurrentRow()
+    {
+        $data = $this->fileObject->fgetcsv($this->options['delimiter'], $this->options['enclosure']);
         //remove last empy line if exists
-        if($data == [null]){
+        if ($data == [null]) {
             return false;
         }
         return $data;

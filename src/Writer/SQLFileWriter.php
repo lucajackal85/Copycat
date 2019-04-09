@@ -45,40 +45,41 @@ class SQLFileWriter implements WriterInterface
         }
 
         //raise exception on extra columns
-        if($this->options['exception_on_extra_columns']){
+        if ($this->options['exception_on_extra_columns']) {
             $extraColumns = [];
-            foreach (array_keys($item) as $itemKey){
-                if(!in_array($itemKey,$this->cols)){
+            foreach (array_keys($item) as $itemKey) {
+                if (!in_array($itemKey, $this->cols)) {
                     $extraColumns[] = $itemKey;
                 }
             }
-            if($extraColumns) {
-                throw new \InvalidArgumentException(sprintf('Row %s had extra columns %s. (Defined columns: %s)',
+            if ($extraColumns) {
+                throw new \InvalidArgumentException(sprintf(
+                    'Row %s had extra columns %s. (Defined columns: %s)',
                     $this->index + 1,
-                    "\"".implode('", "',$extraColumns)."\"",
-                    "\"".implode('", "',$this->cols)."\""
+                    "\"".implode('", "', $extraColumns)."\"",
+                    "\"".implode('", "', $this->cols)."\""
                 ));
             }
         }
 
         //Fill array maintain defined order
         foreach ($this->cols as $key => $colName) {
-            if(!array_key_exists($colName, $item)){
+            if (!array_key_exists($colName, $item)) {
                 $item[$colName] = null;
             }
         }
 
         $itemOrdered = [];
         $colOrder = array_flip($this->cols);
-        foreach($colOrder as $colKey => $colValue){
+        foreach ($colOrder as $colKey => $colValue) {
             $itemOrdered[$colKey] = $item[$colKey];
         }
         $item = $itemOrdered;
 
 
         if ($this->index == 0) {
-            if($this->options['drop_data']){
-                $this->appendRow(sprintf("delete from %s\n",$this->tablename));
+            if ($this->options['drop_data']) {
+                $this->appendRow(sprintf("delete from %s\n", $this->tablename));
             }
             $this->appendRow(sprintf("insert into %s (%s) values\n", $this->tablename, implode(', ', array_keys($item))));
         } else {
@@ -87,7 +88,7 @@ class SQLFileWriter implements WriterInterface
 
 
         $item = array_reduce($item, function ($outCell, $currentCell) {
-            if(is_null($currentCell)){
+            if (is_null($currentCell)) {
                 $outCell[] = 'null';
                 return $outCell;
             }

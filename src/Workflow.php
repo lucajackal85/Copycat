@@ -93,15 +93,14 @@ class Workflow
             $writer->prepare();
         }
 
-        if($this->sorterMap->hasSorter()) {
+        if ($this->sorterMap->hasSorter()) {
             $values = $this->reader->all();
             $this->sorterMap->apply($values);
-        }else{
+        } else {
             $values = $this->reader;
         }
 
         foreach ($values as $k => $row) {
-
             foreach ($this->writers as $writer) {
                 $copyRow = $row;
                 $this->conversionMap->apply($copyRow);
