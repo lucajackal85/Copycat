@@ -24,6 +24,10 @@ abstract class IteratorReader implements ReaderInterface
         return $this->items[$index];
     }
 
+    public function all(){
+        return $this->items;
+    }
+
     /**
      * @return array
      */

@@ -14,9 +14,13 @@ class WorkFlowTest extends TestCase
 {
     public function testWorkFlow()
     {
+        $arr = [
+            ['1' => 'x']
+        ];
         $mockReader = $this->getMockBuilder(ReaderInterface::class)->getMock();
         $mockReader->expects($this->any())->method('valid')->willReturnOnConsecutiveCalls(true, false);
-        $mockReader->expects($this->once())->method('current')->willReturn(['1' => 'x']);
+        $mockReader->expects($this->once())->method('current')->willReturn($arr[0]);
+        $mockReader->expects($this->never())->method('all')->willReturn($arr);
         $mockWriter = $this->getMockBuilder(WriterInterface::class)->getMock();
         $mockWriter->expects($this->once())->method('writeItem');
 
@@ -37,11 +41,11 @@ class WorkFlowTest extends TestCase
 
     public function testWorkFlowFilter(){
 
+        $arr = [['col1' => null,'col2' => 'value6']];
         $mockReader = $this->getMockBuilder(ReaderInterface::class)->getMock();
         $mockReader->expects($this->any())->method('valid')->willReturnOnConsecutiveCalls(true, false);
-        $mockReader->expects($this->once())->method('current')->willReturn(
-            ['col1' => null,'col2' => 'value6']
-        );
+        $mockReader->expects($this->never())->method('all')->willReturn($arr);
+        $mockReader->expects($this->once())->method('current')->willReturn($arr[0]);
         $mockWriter = $this->getMockBuilder(WriterInterface::class)->getMock();
         $mockWriter->expects($this->never())->method('writeItem');
 

@@ -8,6 +8,8 @@ use Jackal\Copycat\Converter\ValueConverter\ConverterInterface;
 use Jackal\Copycat\Filter\FilterInterface;
 use Jackal\Copycat\Filter\FilterMap;
 use Jackal\Copycat\Reader\ReaderInterface;
+use Jackal\Copycat\Sorter\AscendingSorter;
+use Jackal\Copycat\Sorter\SorterMap;
 use Jackal\Copycat\Writer\WriterInterface;
 
 class Workflow
@@ -33,6 +35,11 @@ class Workflow
     protected $filterMap;
 
     /**
+     * @var SorterMap
+     */
+    protected $sorterMap;
+
+    /**
      * Workflow constructor.
      * @param ReaderInterface $reader
      */
@@ -41,6 +48,7 @@ class Workflow
         $this->reader = $reader;
         $this->conversionMap = new ConversionMap();
         $this->filterMap = new FilterMap();
+        $this->sorterMap = new SorterMap();
     }
 
     /**
@@ -52,7 +60,6 @@ class Workflow
     }
 
     /**
-     * @param $column
      * @param callable $converter
      */
     public function addConverter(callable $converter)
@@ -68,6 +75,14 @@ class Workflow
         $this->filterMap->add($filter);
     }
 
+    /**
+     * @param callable $sorter
+     */
+    public function addSorter(callable $sorter)
+    {
+        $this->sorterMap->add($sorter);
+    }
+
     public function process()
     {
         if (!$this->writers) {
@@ -78,7 +93,15 @@ class Workflow
             $writer->prepare();
         }
 
-        foreach ($this->reader as $k => $row) {
+        if($this->sorterMap->hasSorter()) {
+            $values = $this->reader->all();
+            $this->sorterMap->apply($values);
+        }else{
+            $values = $this->reader;
+        }
+
+        foreach ($values as $k => $row) {
+
             foreach ($this->writers as $writer) {
                 $copyRow = $row;
                 $this->conversionMap->apply($copyRow);
