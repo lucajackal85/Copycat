@@ -35,7 +35,8 @@ class SQLLoadDataLocalWriter extends CSVFileWriter
             'enclosure' => '"',
             'header' => true,
             'autoincrement_field' => false,
-            'drop_data' => false
+            'drop_data' => false,
+            'columns' => []
         ]);
 
         $this->options = $resolver->resolve($options);
