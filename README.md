@@ -80,7 +80,22 @@ $workflow->addConverter(function ($values){
 });
 /*[...]*/
 ```
-
+### Sorting
+Is it possible to sort output values
+```
+/*[...]*/
+//add sorter
+$workflow->addSorter(new AscendingSorter('col1'));
+/*[...]*/
+```
+If you want to sort values basing on multiple columns, you can just add multiple params.
+**Use with care! this method could create performance issues on large input data**
+```
+/*[...]*/
+//add sorter
+$workflow->addSorter(new AscendingSorter('col1','col2','col3',/*...*/));
+/*[...]*/
+```
 ## Authors
 * **Luca Giacalone** (AKA JackalOne)
 
