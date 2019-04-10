@@ -53,13 +53,13 @@ class CSVFileWriter implements WriterInterface
 
     public function writeItem(array $item)
     {
-        if($this->options['columns'] and array_keys($item) != $this->options['columns']){
+        if ($this->options['columns'] and array_keys($item) != $this->options['columns']) {
             $itemOrdered = [];
-            foreach ($this->options['columns'] as $orderdColumn){
-                if(!array_key_exists($orderdColumn,$item)){
+            foreach ($this->options['columns'] as $orderdColumn) {
+                if (!array_key_exists($orderdColumn, $item)) {
                     $itemOrdered[$orderdColumn] = null;
-                }else{
-                   $itemOrdered[$orderdColumn] = $item[$orderdColumn];
+                } else {
+                    $itemOrdered[$orderdColumn] = $item[$orderdColumn];
                 }
             }
             $item = $itemOrdered;
