@@ -23,8 +23,9 @@ class CSVFileWriterTest extends AbstractFileTestCase
             'enclosure' => $enclosure
         ]);
         $writer->prepare();
-        $writer->writeItem($toWrite[0], 1, 2);
-        $writer->writeItem($toWrite[1], 2, 2);
+        foreach ($toWrite as $toWriteRow){
+            $writer->writeItem($toWriteRow);
+        }
         $writer->finish();
         $fileHandler = fopen($this->tmpFile, 'r');
 
@@ -51,14 +52,47 @@ class CSVFileWriterTest extends AbstractFileTestCase
             'header' => false
         ]);
         $writer->prepare();
-        $writer->writeItem($toWrite[0], 1, 2);
-        $writer->writeItem($toWrite[1], 2, 2);
+        foreach ($toWrite as $toWriteRow){
+            $writer->writeItem($toWriteRow);
+        }
         $writer->finish();
         $fileHandler = fopen($this->tmpFile, 'r');
 
-        foreach ($toWrite as $value) {
-            $this->assertEquals(fgetcsv($fileHandler, 0, $delimiter, $enclosure), array_values($value));
+        $this->assertEquals(fgetcsv($fileHandler, 0, $delimiter, $enclosure), ['1','2']);
+        $this->assertEquals(fgetcsv($fileHandler, 0, $delimiter, $enclosure), ['3','4']);
+        $this->assertFalse(fgetcsv($fileHandler));
+    }
+
+    public function testWriteCSVOrderedColumns()
+    {
+        $toWrite = [
+            ['a' => '1','b' => '2','c' => '3'],
+            ['a' => '4','c' => '6','b' => '5'],
+            ['a' => '7','c' => '9'],
+            ['a' => '10','d' => 'not been showed'],
+        ];
+
+        $delimiter = ';';
+        $enclosure = '"';
+
+        $writer = new CSVFileWriter($this->tmpFile, [
+            'delimiter' => $delimiter,
+            'enclosure' => $enclosure,
+            'columns' => ['a','b','c']
+        ]);
+
+        $writer->prepare();
+        foreach ($toWrite as $toWriteRow){
+            $writer->writeItem($toWriteRow);
         }
+        $writer->finish();
+        $fileHandler = fopen($this->tmpFile, 'r');
+
+        $this->assertEquals(fgetcsv($fileHandler, 0, $delimiter, $enclosure), ['a','b','c']);
+        $this->assertEquals(fgetcsv($fileHandler, 0, $delimiter, $enclosure), ['1','2','3']);
+        $this->assertEquals(fgetcsv($fileHandler, 0, $delimiter, $enclosure), ['4','5','6']);
+        $this->assertEquals(fgetcsv($fileHandler, 0, $delimiter, $enclosure), ['7','','9']);
+        $this->assertEquals(fgetcsv($fileHandler, 0, $delimiter, $enclosure), ['10','','']);
         $this->assertFalse(fgetcsv($fileHandler));
     }
 }

@@ -20,7 +20,8 @@ class CSVFileWriter implements WriterInterface
             'replace_file' => false,
             'delimiter' => ',',
             'enclosure' => '"',
-            'header' => true
+            'header' => true,
+            'columns' => []
         ]);
 
         $this->options = $resolver->resolve($options);
@@ -52,6 +53,18 @@ class CSVFileWriter implements WriterInterface
 
     public function writeItem(array $item)
     {
+        if($this->options['columns'] and array_keys($item) != $this->options['columns']){
+            $itemOrdered = [];
+            foreach ($this->options['columns'] as $orderdColumn){
+                if(!array_key_exists($orderdColumn,$item)){
+                    $itemOrdered[$orderdColumn] = null;
+                }else{
+                   $itemOrdered[$orderdColumn] = $item[$orderdColumn];
+                }
+            }
+            $item = $itemOrdered;
+        }
+
         if ($this->index == 0 and $this->options['header']) {
             fputcsv($this->handle, array_keys($item), $this->options['delimiter'], $this->options['enclosure']);
         }
