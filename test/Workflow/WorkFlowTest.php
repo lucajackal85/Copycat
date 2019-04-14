@@ -26,7 +26,10 @@ class WorkFlowTest extends TestCase
 
         $workflow = new Workflow($mockReader);
         $workflow->addWriter($mockWriter);
-        $workflow->process();
+
+        $workflow->process(function ($values){
+            $this->assertEquals(['1' => 'x'],$values);
+        });
     }
 
     public function testRaiseExceptionOnWriterNotSet()

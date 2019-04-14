@@ -83,7 +83,7 @@ class Workflow
         $this->sorterMap->add($sorter);
     }
 
-    public function process()
+    public function process(callable $callack = null)
     {
         if (!$this->writers) {
             throw new \RuntimeException('No writers set');
@@ -107,6 +107,10 @@ class Workflow
                 if ($this->filterMap->apply($copyRow)) {
                     $writer->writeItem($copyRow);
                 }
+            }
+
+            if($callack) {
+                $callack($copyRow);
             }
         }
 

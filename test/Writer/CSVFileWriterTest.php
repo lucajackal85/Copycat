@@ -23,7 +23,7 @@ class CSVFileWriterTest extends AbstractFileTestCase
             'enclosure' => $enclosure
         ]);
         $writer->prepare();
-        foreach ($toWrite as $toWriteRow){
+        foreach ($toWrite as $toWriteRow) {
             $writer->writeItem($toWriteRow);
         }
         $writer->finish();
@@ -52,7 +52,7 @@ class CSVFileWriterTest extends AbstractFileTestCase
             'header' => false
         ]);
         $writer->prepare();
-        foreach ($toWrite as $toWriteRow){
+        foreach ($toWrite as $toWriteRow) {
             $writer->writeItem($toWriteRow);
         }
         $writer->finish();
@@ -82,7 +82,7 @@ class CSVFileWriterTest extends AbstractFileTestCase
         ]);
 
         $writer->prepare();
-        foreach ($toWrite as $toWriteRow){
+        foreach ($toWrite as $toWriteRow) {
             $writer->writeItem($toWriteRow);
         }
         $writer->finish();
