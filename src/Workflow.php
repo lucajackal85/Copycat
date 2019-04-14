@@ -109,7 +109,7 @@ class Workflow
                 }
             }
 
-            if($callack) {
+            if ($callack) {
                 $callack($copyRow);
             }
         }
