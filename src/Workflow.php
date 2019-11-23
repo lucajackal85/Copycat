@@ -4,14 +4,16 @@
 namespace Jackal\Copycat;
 
 use Jackal\Copycat\Converter\ConversionMap;
-use Jackal\Copycat\Converter\ValueConverter\ConverterInterface;
-use Jackal\Copycat\Filter\FilterInterface;
 use Jackal\Copycat\Filter\FilterMap;
 use Jackal\Copycat\Reader\ReaderInterface;
-use Jackal\Copycat\Sorter\AscendingSorter;
 use Jackal\Copycat\Sorter\SorterMap;
 use Jackal\Copycat\Writer\WriterInterface;
+use RuntimeException;
 
+/**
+ * Class Workflow
+ * @package Jackal\Copycat
+ */
 class Workflow
 {
     /**
@@ -83,10 +85,13 @@ class Workflow
         $this->sorterMap->add($sorter);
     }
 
-    public function process(callable $callack = null)
+    /**
+     * @param callable|null $callback
+     */
+    public function process(callable $callback = null)
     {
         if (!$this->writers) {
-            throw new \RuntimeException('No writers set');
+            throw new RuntimeException('No writers set');
         }
 
         foreach ($this->writers as $writer) {
@@ -109,8 +114,10 @@ class Workflow
                 }
             }
 
-            if ($callack) {
-                $callack($copyRow);
+            if ($callback) {
+                if (isset($copyRow)) {
+                    $callback($copyRow);
+                }
             }
         }
 

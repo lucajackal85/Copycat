@@ -3,19 +3,50 @@
 
 namespace Jackal\Copycat\Writer;
 
+use Exception;
+use InvalidArgumentException;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
+/**
+ * Class SQLFileWriter
+ * @package Jackal\Copycat\Writer
+ */
 class SQLFileWriter implements WriterInterface
 {
+    /**
+     * @var string
+     */
     protected $outputFilePathname;
-    protected $tablename;
-    protected $options;
+
+    /**
+     * @var string
+     */
+    protected $tableName;
+
+    /**
+     * @var array
+     */
+    protected $options = [];
+
+    /**
+     * @var int
+     */
     protected $index;
+
+    /**
+     * @var array
+     */
     protected $cols = [];
 
-    public function __construct($tablename, $outputFilePathname, array $options = [])
+    /**
+     * SQLFileWriter constructor.
+     * @param $tableName
+     * @param $outputFilePathname
+     * @param array $options
+     */
+    public function __construct($tableName, $outputFilePathname, array $options = [])
     {
-        $this->tablename = $tablename;
+        $this->tableName = $tableName;
         $this->outputFilePathname = $outputFilePathname;
 
         $resolver = new OptionsResolver();
@@ -29,11 +60,17 @@ class SQLFileWriter implements WriterInterface
         $this->options = $resolver->resolve($options);
     }
 
+    /**
+     * @param $content
+     */
     private function appendRow($content)
     {
         file_put_contents($this->outputFilePathname, $content, FILE_APPEND);
     }
 
+    /**
+     * @param array $item
+     */
     public function writeItem(array $item)
     {
         if ($this->index == 0) {
@@ -53,7 +90,7 @@ class SQLFileWriter implements WriterInterface
                 }
             }
             if ($extraColumns) {
-                throw new \InvalidArgumentException(sprintf(
+                throw new InvalidArgumentException(sprintf(
                     'Row %s had extra columns %s. (Defined columns: %s)',
                     $this->index + 1,
                     "\"".implode('", "', $extraColumns)."\"",
@@ -79,9 +116,9 @@ class SQLFileWriter implements WriterInterface
 
         if ($this->index == 0) {
             if ($this->options['drop_data']) {
-                $this->appendRow(sprintf("delete from %s\n", $this->tablename));
+                $this->appendRow(sprintf("delete from %s\n", $this->tableName));
             }
-            $this->appendRow(sprintf("insert into %s (%s) values\n", $this->tablename, implode(', ', array_keys($item))));
+            $this->appendRow(sprintf("insert into %s (%s) values\n", $this->tableName, implode(', ', array_keys($item))));
         } else {
             $this->appendRow(",\n");
         }
@@ -105,6 +142,9 @@ class SQLFileWriter implements WriterInterface
         $this->index++;
     }
 
+    /**
+     * @throws Exception
+     */
     public function prepare()
     {
         if (!is_dir(dirname($this->outputFilePathname))) {
@@ -113,7 +153,7 @@ class SQLFileWriter implements WriterInterface
 
         $fileExists = file_exists($this->outputFilePathname);
         if ($fileExists and !$this->options['replace_file']) {
-            throw new \Exception('File '.realpath($this->outputFilePathname).' already exists');
+            throw new Exception('File '.realpath($this->outputFilePathname).' already exists');
         }
 
         if ($fileExists) {
@@ -121,6 +161,9 @@ class SQLFileWriter implements WriterInterface
         }
     }
 
+    /**
+     *
+     */
     public function finish()
     {
         $this->appendRow(';');

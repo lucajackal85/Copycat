@@ -3,10 +3,10 @@
 
 namespace Jackal\Copycat\Reader;
 
-class ArrayReader extends IteratorReader
+class ArrayReader extends BaseReader
 {
     public function __construct(array $items = [])
     {
-        $this->items = $items;
+        $this->setItems($items);
     }
 }

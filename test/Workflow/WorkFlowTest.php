@@ -27,8 +27,8 @@ class WorkFlowTest extends TestCase
         $workflow = new Workflow($mockReader);
         $workflow->addWriter($mockWriter);
 
-        $workflow->process(function ($values){
-            $this->assertEquals(['1' => 'x'],$values);
+        $workflow->process(function ($values) {
+            $this->assertEquals(['1' => 'x'], $values);
         });
     }
 

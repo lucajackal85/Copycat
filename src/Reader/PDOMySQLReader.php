@@ -3,12 +3,25 @@
 
 namespace Jackal\Copycat\Reader;
 
+use PDO;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class PDOMySQLReader extends IteratorReader
+/**
+ * Class PDOMySQLReader
+ * @package Jackal\Copycat\Reader
+ */
+class PDOMySQLReader extends BaseReader
 {
+    /**
+     * @var array
+     */
     protected $options;
 
+    /**
+     * PDOMySQLReader constructor.
+     * @param $query
+     * @param array $options
+     */
     public function __construct($query, array $options)
     {
         $resolver = new OptionsResolver();
@@ -20,13 +33,14 @@ class PDOMySQLReader extends IteratorReader
             'database_name' => null,
             'query' => $query,
             'driver_options' => [
-                \PDO::ATTR_DEFAULT_FETCH_MODE => \PDO::FETCH_ASSOC,
+                PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
             ]
         ]);
 
         $this->options = $resolver->resolve($options);
 
-        $dbh = $pdo = new \PDO(
+        /** @noinspection SpellCheckingInspection */
+        $dbh = $pdo = new PDO(
             sprintf('mysql:host=%s;dbname=%s', $this->options['host'], $this->options['database_name']),
             $this->options['username'],
             $this->options['password'],

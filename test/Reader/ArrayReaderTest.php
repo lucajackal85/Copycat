@@ -25,10 +25,11 @@ class ArrayReaderTest extends TestCase
 
     public function testIteration_NoValues()
     {
-        $reader = new ArrayReader();
-        $reader->addItem(['cell11','cell21','cell31','cell41']);
-        $reader->addItem(['cell12','cell22','cell32','cell42']);
-        $reader->addItem(['cell13','cell23','cell33','cell43']);
+        $reader = new ArrayReader([
+            ['cell11','cell21','cell31','cell41'],
+            ['cell12','cell22','cell32','cell42'],
+            ['cell13','cell23','cell33','cell43']
+        ]);
 
         $this->assertEquals(['cell11','cell21','cell31','cell41'], $reader->get(0));
         $this->assertEquals(['cell12','cell22','cell32','cell42'], $reader->get(1));

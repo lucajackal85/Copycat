@@ -3,6 +3,10 @@
 
 namespace Jackal\Copycat\Filter;
 
+/**
+ * Class FilterMap
+ * @package Jackal\Copycat\Filter
+ */
 class FilterMap
 {
     /**
@@ -10,11 +14,18 @@ class FilterMap
      */
     protected $map = [];
 
+    /**
+     * @param callable $filter
+     */
     public function add(callable $filter)
     {
         $this->map[] = $filter;
     }
 
+    /**
+     * @param array $values
+     * @return bool
+     */
     public function apply(array &$values)
     {
         foreach ($this->map as $filter) {

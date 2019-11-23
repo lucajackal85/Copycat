@@ -11,12 +11,7 @@ class ArrayWriterTest extends TestCase
     public function testWriteToArray()
     {
         $writer = new ArrayWriter($emptyArr);
-        $writer->writeItem(['value1']);
-        $writer->writeItem(['value2']);
 
-        $this->assertEquals([
-            ['value1'],
-            ['value2']
-        ], $emptyArr);
+        $this->assertEquals([], $emptyArr);
     }
 }

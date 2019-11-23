@@ -3,14 +3,36 @@
 
 namespace Jackal\Copycat\Reader;
 
-abstract class IteratorReader implements ReaderInterface
+/**
+ * Class BaseReader
+ * @package Jackal\Copycat\Reader
+ */
+abstract class BaseReader implements ReaderInterface
 {
+    /**
+     * @var int
+     */
     private $cursor = 0;
-    protected $items = [];
 
-    public function addItem(array $item)
+    /**
+     * @var array
+     */
+    private $items = [];
+
+    /**
+     * @param array $item
+     */
+    protected function addItem(array $item)
     {
         $this->items[] = $item;
+    }
+
+    /**
+     * @param array $items
+     */
+    protected function setItems(array $items)
+    {
+        $this->items = $items;
     }
 
     /**
