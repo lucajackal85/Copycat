@@ -1,4 +1,4 @@
-# Image Merge
+# CopyCat
 A simple PHP to "copy" data from one source to another
 
 ### Requirement
