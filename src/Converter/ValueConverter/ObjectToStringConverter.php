@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Jackal\Copycat\Converter\ValueConverter;
 
 /**

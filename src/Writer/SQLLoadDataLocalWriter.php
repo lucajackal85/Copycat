@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Jackal\Copycat\Writer;
 
 use SplFileInfo;
@@ -44,7 +43,7 @@ class SQLLoadDataLocalWriter extends CSVFileWriter
         $outputFile = new SplFileInfo($outputFilePathname);
 
         $localPath = realpath($outputFile->getPathname());
-        $csvOutputFilePathname = str_replace('.'.$outputFile->getExtension(), '.csv', $localPath);
+        $csvOutputFilePathname = str_replace('.' . $outputFile->getExtension(), '.csv', $localPath);
 
         parent::__construct($csvOutputFilePathname, $options);
         $this->sqlOutputFilePathname = $localPath;
@@ -58,7 +57,7 @@ class SQLLoadDataLocalWriter extends CSVFileWriter
             'header' => true,
             'autoincrement_field' => false,
             'drop_data' => false,
-            'columns' => []
+            'columns' => [],
         ]);
 
         $this->options = $resolver->resolve($options);
@@ -85,7 +84,7 @@ class SQLLoadDataLocalWriter extends CSVFileWriter
         $dropRecordsString = $this->options['drop_data'] ? sprintf('DELETE FROM %s;', $this->tableName) : null;
         $autoIncrementString = $this->options['autoincrement_field'] ? sprintf('SET %s = NULL', $this->options['autoincrement_field']) : null;
         $rowsToIgnore = $this->options['header'] ? 1 : 0;
-        $headers = '('.implode(', ', $this->headers).')';
+        $headers = '(' . implode(', ', $this->headers) . ')';
 
         $contents = <<<SQL
 {$dropRecordsString}        

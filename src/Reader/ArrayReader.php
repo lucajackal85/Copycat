@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Jackal\Copycat\Reader;
 
 class ArrayReader extends BaseReader

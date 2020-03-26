@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Jackal\Copycat;
 
 use Jackal\Copycat\Converter\ConversionMap;

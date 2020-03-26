@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Jackal\Copycat\Writer;
 
 use Exception;
@@ -45,7 +44,7 @@ class CSVFileWriter implements WriterInterface
             'delimiter' => ',',
             'enclosure' => '"',
             'header' => true,
-            'columns' => []
+            'columns' => [],
         ]);
 
         $this->options = $resolver->resolve($options);
@@ -68,7 +67,7 @@ class CSVFileWriter implements WriterInterface
 
         $fileExists = file_exists($this->outputFilePathname);
         if ($fileExists and !$this->options['replace_file']) {
-            throw new Exception('File '.realpath($this->outputFilePathname).' already exists');
+            throw new Exception('File ' . realpath($this->outputFilePathname) . ' already exists');
         }
 
         if ($fileExists) {

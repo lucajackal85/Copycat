@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Jackal\Copycat\Sorter\ValueSorter;
 
 use Jackal\Copycat\Sorter\SorterInterface;
@@ -57,21 +56,21 @@ class AscendingSorter implements SorterInterface
      */
     private function array_mSort($array, $cols)
     {
-        $colArr = array();
+        $colArr = [];
         foreach ($cols as $col => $order) {
-            $colArr[$col] = array();
+            $colArr[$col] = [];
             foreach ($array as $k => $row) {
-                $colArr[$col]['_'.$k] = strtolower($row[$col]);
+                $colArr[$col]['_' . $k] = strtolower($row[$col]);
             }
         }
         /** @noinspection SpellCheckingInspection */
         $eval = 'array_multisort(';
         foreach ($cols as $col => $order) {
-            $eval .= '$colArr[\''.$col.'\'],'.$order.',';
+            $eval .= '$colArr[\'' . $col . '\'],' . $order . ',';
         }
-        $eval = substr($eval, 0, -1).');';
+        $eval = substr($eval, 0, -1) . ');';
         eval($eval);
-        $ret = array();
+        $ret = [];
         foreach ($colArr as $col => $arr) {
             foreach ($arr as $k => $v) {
                 $k = substr($k, 1);
@@ -81,6 +80,7 @@ class AscendingSorter implements SorterInterface
                 $ret[$k][$col] = $array[$k][$col];
             }
         }
+
         return $ret;
     }
 }

@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Jackal\Copycat\Writer;
 
 use Exception;
@@ -54,7 +53,7 @@ class SQLFileWriter implements WriterInterface
             'replace_file' => false,
             'columns' => [],
             'exception_on_extra_columns' => false,
-            'drop_data' => false
+            'drop_data' => false,
         ]);
 
         $this->options = $resolver->resolve($options);
@@ -93,8 +92,8 @@ class SQLFileWriter implements WriterInterface
                 throw new InvalidArgumentException(sprintf(
                     'Row %s had extra columns %s. (Defined columns: %s)',
                     $this->index + 1,
-                    "\"".implode('", "', $extraColumns)."\"",
-                    "\"".implode('", "', $this->cols)."\""
+                    '"' . implode('", "', $extraColumns) . '"',
+                    '"' . implode('", "', $this->cols) . '"'
                 ));
             }
         }
@@ -113,7 +112,6 @@ class SQLFileWriter implements WriterInterface
         }
         $item = $itemOrdered;
 
-
         if ($this->index == 0) {
             if ($this->options['drop_data']) {
                 $this->appendRow(sprintf("delete from %s\n", $this->tableName));
@@ -123,19 +121,19 @@ class SQLFileWriter implements WriterInterface
             $this->appendRow(",\n");
         }
 
-
         $item = array_reduce($item, function ($outCell, $currentCell) {
             if (is_null($currentCell)) {
                 $outCell[] = 'null';
+
                 return $outCell;
             }
             //escape sql string
-            $search = array("\\",  "\x00", "\n",  "\r",  "'",  '"', "\x1a");
-            $replace = array("\\\\","\\0","\\n", "\\r", "\'", '\"', "\\Z");
-            $outCell[] = '"'.str_replace($search, $replace, $currentCell).'"';
+            $search = ['\\',  "\x00", "\n",  "\r",  "'",  '"', "\x1a"];
+            $replace = ['\\\\','\\0','\\n', '\\r', "\'", '\"', '\\Z'];
+            $outCell[] = '"' . str_replace($search, $replace, $currentCell) . '"';
+
             return $outCell;
         }, []);
-
 
         $rowString = sprintf('(%s)', implode(', ', array_values($item)));
         $this->appendRow($rowString);
@@ -153,7 +151,7 @@ class SQLFileWriter implements WriterInterface
 
         $fileExists = file_exists($this->outputFilePathname);
         if ($fileExists and !$this->options['replace_file']) {
-            throw new Exception('File '.realpath($this->outputFilePathname).' already exists');
+            throw new Exception('File ' . realpath($this->outputFilePathname) . ' already exists');
         }
 
         if ($fileExists) {

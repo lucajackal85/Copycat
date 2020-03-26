@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Jackal\Copycat\Reader;
 
 /**
@@ -44,6 +43,7 @@ abstract class BaseReader implements ReaderInterface
         if (!isset($this->items[$index])) {
             return null;
         }
+
         return $this->items[$index];
     }
 
@@ -60,6 +60,7 @@ abstract class BaseReader implements ReaderInterface
         if (!isset($this->items[0])) {
             return null;
         }
+
         return $this->items[0];
     }
 

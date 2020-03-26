@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Jackal\Copycat\Reader;
 
 use PDO;
@@ -34,7 +33,7 @@ class PDOMySQLReader extends BaseReader
             'query' => $query,
             'driver_options' => [
                 PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
-            ]
+            ],
         ]);
 
         $this->options = $resolver->resolve($options);

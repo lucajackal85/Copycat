@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Jackal\Copycat\Sorter\ValueSorter;
 
 /**

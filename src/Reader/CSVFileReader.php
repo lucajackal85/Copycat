@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Jackal\Copycat\Reader;
 
 use SplFileObject;
@@ -33,7 +32,7 @@ class CSVFileReader extends BaseReader
         $resolver->setDefaults([
             'delimiter' => ',',
             'enclosure' => '"',
-            'header' => true
+            'header' => true,
         ]);
 
         $this->options = $resolver->resolve($options);
@@ -61,6 +60,7 @@ class CSVFileReader extends BaseReader
         if ($data == [null]) {
             return false;
         }
+
         return $data;
     }
 }

@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Jackal\Copycat\Filter\ValueFilter;
 
 use DateTime;
@@ -44,6 +43,7 @@ class LowerThanFilter extends AbstractFilter
                 if ($this->comparedValue instanceof DateTime) {
                     $this->comparedValue = $this->comparedValue->format('Y-m-d H:i:s');
                 }
+
                 return $val->format('Y-m-d H:i:s') < $this->comparedValue;
             }
         }
