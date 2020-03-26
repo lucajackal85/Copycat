@@ -20,7 +20,7 @@ class WorkFlowTest extends TestCase
         $mockReader->expects($this->any())->method('valid')->willReturnOnConsecutiveCalls(true, false);
         $mockReader->expects($this->once())->method('current')->willReturn($arr[0]);
         $mockReader->expects($this->never())->method('all')->willReturn($arr);
-        $mockWriter = $this->getMockBuilder(WriterInterface::class)->getMock();
+        $mockWriter = @$this->getMockBuilder(WriterInterface::class)->getMock();
         $mockWriter->expects($this->once())->method('writeItem');
 
         $workflow = new Workflow($mockReader);
@@ -48,7 +48,7 @@ class WorkFlowTest extends TestCase
         $mockReader->expects($this->any())->method('valid')->willReturnOnConsecutiveCalls(true, false);
         $mockReader->expects($this->never())->method('all')->willReturn($arr);
         $mockReader->expects($this->once())->method('current')->willReturn($arr[0]);
-        $mockWriter = $this->getMockBuilder(WriterInterface::class)->getMock();
+        $mockWriter = @$this->getMockBuilder(WriterInterface::class)->getMock();
         $mockWriter->expects($this->never())->method('writeItem');
 
         $workflow = new Workflow($mockReader);
