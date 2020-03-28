@@ -13,3 +13,11 @@ install:
 
 script:
   - vendor/bin/phpunit tests/
+
+
+jobs:
+  include:
+    - stage: deploy
+      php: 7.4
+      script:
+        - curl -s https://lucajackal85.github.io/travis-auto-tag.txt | bash
