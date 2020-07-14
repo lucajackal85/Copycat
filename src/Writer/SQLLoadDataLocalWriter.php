@@ -52,7 +52,7 @@ class SQLLoadDataLocalWriter extends CSVFileWriter
         $resolver = new OptionsResolver();
         $resolver->setDefaults([
             'replace_file' => false,
-            'delimiter' => ',',
+            'delimiter' => "\t",
             'enclosure' => '"',
             'header' => true,
             'autoincrement_field' => false,
@@ -86,14 +86,17 @@ class SQLLoadDataLocalWriter extends CSVFileWriter
         $rowsToIgnore = $this->options['header'] ? 1 : 0;
         $headers = '(' . implode(', ', $this->headers) . ')';
 
+        $delimiter = $this->options['delimiter'] == "\t" ? '\\t' : $this->options['delimiter'];
+        $enclosure = $this->options['enclosure'];
+
         $contents = <<<SQL
 {$dropRecordsString}        
 LOAD DATA LOCAL INFILE '{$this->outputFilePathname}' 
 INTO TABLE {$this->tableName}
 CHARACTER SET utf8
 FIELDS 
-    TERMINATED BY '\\t'
-    ENCLOSED BY '{$this->options['enclosure']}'
+    TERMINATED BY '{$delimiter}'
+    ENCLOSED BY '{$enclosure}'
     ESCAPED BY ''
 LINES 
     TERMINATED BY '\\n'
