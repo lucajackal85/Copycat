@@ -45,22 +45,35 @@ class SQLLoadDataLocalWriter extends CSVFileWriter
         $localPath = realpath($outputFile->getPathname());
         $csvOutputFilePathname = str_replace('.' . $outputFile->getExtension(), '.csv', $localPath);
 
-        parent::__construct($csvOutputFilePathname, $options);
-        $this->sqlOutputFilePathname = $localPath;
-        $this->tableName = $tableName;
+        $opts = [
+            'header' => true,
+            'delimiter' => "\t",
+        ];
+        foreach (['columns','delimiter','enclosure','header','replace_file'] as $option){
+            if(array_key_exists($option,$options)){
+                $opts[$option] = $options[$option];
+            }
+        }
+
+        parent::__construct($csvOutputFilePathname, $opts);
 
         $resolver = new OptionsResolver();
         $resolver->setDefaults([
             'replace_file' => false,
-            'delimiter' => "\t",
+            'delimiter' => $opts['delimiter'],
             'enclosure' => '"',
-            'header' => true,
+            'header' => $opts['header'],
             'autoincrement_field' => false,
             'drop_data' => false,
+            'create_table' => false,
             'columns' => [],
         ]);
 
-        $this->options = $resolver->resolve($options);
+        $this->options = $resolver->resolve(array_merge($options,$opts));
+
+        $this->sqlOutputFilePathname = $localPath;
+        $this->tableName = $tableName;
+
     }
 
     /**
@@ -81,16 +94,26 @@ class SQLLoadDataLocalWriter extends CSVFileWriter
     {
         parent::finish();
 
-        $dropRecordsString = $this->options['drop_data'] ? sprintf('DELETE FROM %s;', $this->tableName) : null;
+        $dropRecordsString = $this->options['drop_data'] ? sprintf("\n".'DELETE FROM %s;', $this->tableName) : null;
         $autoIncrementString = $this->options['autoincrement_field'] ? sprintf('SET %s = NULL', $this->options['autoincrement_field']) : null;
         $rowsToIgnore = $this->options['header'] ? 1 : 0;
         $headers = '(' . implode(', ', $this->headers) . ')';
 
-        $delimiter = $this->options['delimiter'] == "\t" ? '\\t' : $this->options['delimiter'];
+        $delimiter = str_replace(["\t","\n","\r"],['\\t','\\n','\\r'],$this->options['delimiter']);
         $enclosure = $this->options['enclosure'];
 
+        $createTableSql = null;
+        if($this->options['create_table']){
+            $h = fopen($this->outputFilePathname,'r');
+            $columnNames = fgetcsv($h,0,$this->options['delimiter'],$this->options['enclosure']);
+
+            $createTableSql = sprintf('DROP TABLE IF EXISTS %s;CREATE TABLE %s (%s);',$this->tableName,$this->tableName,implode(', ',array_map(function($value){
+                return $value.' text';
+            },$columnNames)));
+        }
+
         $contents = <<<SQL
-{$dropRecordsString}        
+{$createTableSql}{$dropRecordsString}        
 LOAD DATA LOCAL INFILE '{$this->outputFilePathname}' 
 INTO TABLE {$this->tableName}
 CHARACTER SET utf8
