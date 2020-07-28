@@ -49,8 +49,8 @@ class SQLLoadDataLocalWriter extends CSVFileWriter
             'header' => true,
             'delimiter' => "\t",
         ];
-        foreach (['columns','delimiter','enclosure','header','replace_file'] as $option){
-            if(array_key_exists($option,$options)){
+        foreach (['columns','delimiter','enclosure','header','replace_file'] as $option) {
+            if (array_key_exists($option, $options)) {
                 $opts[$option] = $options[$option];
             }
         }
@@ -69,11 +69,10 @@ class SQLLoadDataLocalWriter extends CSVFileWriter
             'columns' => [],
         ]);
 
-        $this->options = $resolver->resolve(array_merge($options,$opts));
+        $this->options = $resolver->resolve(array_merge($options, $opts));
 
         $this->sqlOutputFilePathname = $localPath;
         $this->tableName = $tableName;
-
     }
 
     /**
@@ -99,17 +98,19 @@ class SQLLoadDataLocalWriter extends CSVFileWriter
         $rowsToIgnore = $this->options['header'] ? 1 : 0;
         $headers = '(' . implode(', ', $this->headers) . ')';
 
-        $delimiter = str_replace(["\t","\n","\r"],['\\t','\\n','\\r'],$this->options['delimiter']);
+        $delimiter = str_replace(["\t","\n","\r"], ['\\t','\\n','\\r'], $this->options['delimiter']);
         $enclosure = $this->options['enclosure'];
 
         $createTableSql = null;
-        if($this->options['create_table']){
-            $h = fopen($this->outputFilePathname,'r');
-            $columnNames = fgetcsv($h,0,$this->options['delimiter'],$this->options['enclosure']);
+        if ($this->options['create_table']) {
+            $h = fopen($this->outputFilePathname, 'r');
+            $columnNames = fgetcsv($h, 0, $this->options['delimiter'], $this->options['enclosure']);
 
-            $createTableSql = sprintf('DROP TABLE IF EXISTS %s;CREATE TABLE %s (%s);',$this->tableName,$this->tableName,implode(', ',array_map(function($value){
+            $autoIncrementField = $this->options['autoincrement_field'] ? $this->options['autoincrement_field'].' int auto_increment not null, ' : '';
+            $primaryKeyField = $this->options['autoincrement_field'] ? ', primary key ('.$this->options['autoincrement_field'].')' : '';
+            $createTableSql = sprintf('DROP TABLE IF EXISTS %s;CREATE TABLE %s (%s%s%s);', $this->tableName, $this->tableName, $autoIncrementField, implode(', ', array_map(function ($value) {
                 return $value.' text';
-            },$columnNames)));
+            }, $columnNames)), $primaryKeyField);
         }
 
         $contents = <<<SQL

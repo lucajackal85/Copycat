@@ -31,7 +31,7 @@ IGNORE 1 LINES
 
     public function testWriteFileWithCreateTable()
     {
-        $writer = new SQLLoadDataLocalWriter('pluto', $this->tmpFile,[
+        $writer = new SQLLoadDataLocalWriter('pluto', $this->tmpFile, [
             'create_table' => true
         ]);
         $writer->prepare();
@@ -51,6 +51,32 @@ LINES
 IGNORE 1 LINES
 (col1, col2)
 
+;");
+    }
+
+    public function testWriteFileWithAutoincrementField()
+    {
+        $writer = new SQLLoadDataLocalWriter('pluto', $this->tmpFile, [
+            'create_table' => true,
+            'autoincrement_field' => 'id'
+        ]);
+        $writer->prepare();
+        $writer->writeItem(['col1' => '1','col2' => '2']);
+        $writer->finish();
+
+        $this->assertFileContent("DROP TABLE IF EXISTS pluto;CREATE TABLE pluto (id int auto_increment not null, col1 text, col2 text, primary key (id));        
+LOAD DATA LOCAL INFILE '".__DIR__."/tmp.csv' 
+INTO TABLE pluto
+CHARACTER SET utf8
+FIELDS 
+    TERMINATED BY '\\t'
+    ENCLOSED BY '\"'
+    ESCAPED BY ''
+LINES 
+    TERMINATED BY '\\n'
+IGNORE 1 LINES
+(col1, col2)
+SET id = NULL
 ;");
     }
 
