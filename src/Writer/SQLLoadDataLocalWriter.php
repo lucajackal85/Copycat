@@ -93,7 +93,7 @@ class SQLLoadDataLocalWriter extends CSVFileWriter
     {
         parent::finish();
 
-        $dropRecordsString = $this->options['drop_data'] ? sprintf("\n".'DELETE FROM %s;', $this->tableName) : null;
+        $dropRecordsString = $this->options['drop_data'] ? sprintf("\n" . 'DELETE FROM %s;', $this->tableName) : null;
         $autoIncrementString = $this->options['autoincrement_field'] ? sprintf('SET %s = NULL', $this->options['autoincrement_field']) : null;
         $rowsToIgnore = $this->options['header'] ? 1 : 0;
         $headers = '(' . implode(', ', $this->headers) . ')';
@@ -106,10 +106,10 @@ class SQLLoadDataLocalWriter extends CSVFileWriter
             $h = fopen($this->outputFilePathname, 'r');
             $columnNames = fgetcsv($h, 0, $this->options['delimiter'], $this->options['enclosure']);
 
-            $autoIncrementField = $this->options['autoincrement_field'] ? $this->options['autoincrement_field'].' int auto_increment not null, ' : '';
-            $primaryKeyField = $this->options['autoincrement_field'] ? ', primary key ('.$this->options['autoincrement_field'].')' : '';
+            $autoIncrementField = $this->options['autoincrement_field'] ? $this->options['autoincrement_field'] . ' int auto_increment not null, ' : '';
+            $primaryKeyField = $this->options['autoincrement_field'] ? ', primary key (' . $this->options['autoincrement_field'] . ')' : '';
             $createTableSql = sprintf('DROP TABLE IF EXISTS %s;CREATE TABLE %s (%s%s%s);', $this->tableName, $this->tableName, $autoIncrementField, implode(', ', array_map(function ($value) {
-                return $value.' text';
+                return $value . ' text';
             }, $columnNames)), $primaryKeyField);
         }
 

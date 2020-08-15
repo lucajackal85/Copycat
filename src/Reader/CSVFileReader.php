@@ -45,6 +45,10 @@ class CSVFileReader extends BaseReader
         }
 
         while (($data = $this->readCurrentRow()) != false) {
+            //skip empty rows
+            if($data == [null]){
+                continue;
+            }
             if ($headers) {
                 $this->addItem(array_combine($headers, $data));
             } else {
@@ -55,12 +59,6 @@ class CSVFileReader extends BaseReader
 
     protected function readCurrentRow()
     {
-        $data = $this->fileObject->fgetcsv($this->options['delimiter'], $this->options['enclosure']);
-        //remove last empty line if exists
-        if ($data == [null]) {
-            return false;
-        }
-
-        return $data;
+        return $this->fileObject->fgetcsv($this->options['delimiter'], $this->options['enclosure']);
     }
 }
