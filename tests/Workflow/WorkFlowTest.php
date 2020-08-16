@@ -132,4 +132,44 @@ class WorkFlowTest extends TestCase
         $this->assertEquals(2, $arrayToWrite[0]['b']);
         $this->assertEquals(3, $arrayToWrite[0]['c']);
     }
+
+    public function testApplyConversionOnlyOnFilteredValues(){
+
+        $reader = new \Jackal\Copycat\Reader\ArrayReader([
+            [
+                'a' => 'to skip',
+                'b' => '2000',
+                'c' => '3000',
+            ],
+            [
+                'a' => '1000',
+                'b' => '2000',
+                'c' => '3000',
+            ],
+        ]);
+
+        $workflow = new \Jackal\Copycat\Workflow($reader);
+        $workflow->addFilter(function ($values){
+            return $values['a'] != 'to skip';
+        });
+        $workflow->addConverter(function ($values) {
+            foreach ($values as &$value){
+                if(!is_numeric($value)){
+                    throw new \Exception('Invalid value: ' . $value);
+                }
+                $value = floatval($value);
+            }
+
+            return $values;
+        });
+
+        $workflow->addWriter(new ArrayWriter($arrayToWrite));
+        $workflow->process();
+
+        $this->assertCount(1, $arrayToWrite);
+        $this->assertEquals(1000, $arrayToWrite[0]['a']);
+        $this->assertEquals(2000, $arrayToWrite[0]['b']);
+        $this->assertEquals(3000, $arrayToWrite[0]['c']);
+
+    }
 }

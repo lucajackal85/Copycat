@@ -107,8 +107,9 @@ class Workflow
         foreach ($values as $k => $row) {
             foreach ($this->writers as $writer) {
                 $copyRow = $row;
-                $this->conversionMap->apply($copyRow);
+
                 if ($this->filterMap->apply($copyRow)) {
+                    $this->conversionMap->apply($copyRow);
                     $writer->writeItem($copyRow);
                 }
             }
