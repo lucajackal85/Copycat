@@ -1,6 +1,13 @@
 # CopyCat
 A simple PHP to "copy" data from one source to another
 
+[![Latest Stable Version](https://poser.pugx.org/jackal/copycat/v/stable)](https://packagist.org/packages/jackal/copycat)
+[![Total Downloads](https://poser.pugx.org/jackal/copycat/downloads)](https://packagist.org/packages/jackal/copycat)
+[![Latest Unstable Version](https://poser.pugx.org/jackal/copycat/v/unstable)](https://packagist.org/packages/jackal/copycat)
+[![License](https://poser.pugx.org/jackal/copycat/license)](https://packagist.org/packages/jackal/copycat)
+[![Build Status](https://travis-ci.org/lucajackal85/BinLocator.svg?branch=master)](https://travis-ci.org/lucajackal85/BinLocator)
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/lucajackal85/Copycat/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/lucajackal85/Copycat/?branch=master)
+
 ### Requirement
 PHP >= **5.6**
 
