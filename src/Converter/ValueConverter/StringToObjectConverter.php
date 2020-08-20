@@ -14,7 +14,12 @@ class StringToObjectConverter extends AbstractConverter
      */
     public function __invoke($value)
     {
-        $value[$this->fieldName] = unserialize($value[$this->fieldName]);
+        $object = @unserialize($value[$this->fieldName]);
+
+        if($object === false and $value[$this->fieldName] !== serialize(false)){
+            throw new \RuntimeException('Error converting string to object.');
+        }
+        $value[$this->fieldName] = $object;
 
         return $value;
     }

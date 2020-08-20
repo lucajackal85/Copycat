@@ -19,9 +19,36 @@ class DatetimeToStringConverterTest extends TestCase
     public function testItShouldRaiseExceptionOnInvalidData()
     {
         $this->expectException(RuntimeException::class);
+        $this->expectExceptionMessage('Input must be DateTime object.');
 
         $dt = ['c' => 'invalid value'];
         $converter = new DatetimeToStringConverter('c');
         $converter($dt);
+    }
+
+    public function testItShouldReturnNullOnNullData(){
+
+        $converter = new DatetimeToStringConverter('d','Y-m-d',true);
+
+        $this->assertEquals(['d' => null], $converter(['d' => null]));
+    }
+
+    public function testItShouldRaiseExceptionOnEmptyData(){
+
+        $this->expectException(RuntimeException::class);
+        $this->expectExceptionMessage('Input must be DateTime object.');
+
+        $converter = new DatetimeToStringConverter('d','Y-m-d',true);
+
+        $converter(['d' => '']);
+    }
+
+    public function testItShouldRaiseExceptionOnNullData(){
+
+        $this->expectException(RuntimeException::class);
+        $this->expectExceptionMessage('Input must be DateTime object.');
+
+        $converter = new DatetimeToStringConverter('d');
+        $converter(['d' => null]);
     }
 }

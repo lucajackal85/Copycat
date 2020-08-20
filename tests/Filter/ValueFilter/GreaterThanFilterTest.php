@@ -74,4 +74,13 @@ class GreaterThanFilterTest extends TestCase
             'the_field' => 'C',
         ]));
     }
+
+    public function testGreatherThanFilterNull(){
+
+        $filter = new GreaterThanFilter('the_field', 'C');
+
+        $this->assertFalse($filter([
+            'the_field' => null,
+        ]));
+    }
 }
