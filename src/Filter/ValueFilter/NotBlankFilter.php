@@ -6,14 +6,16 @@ namespace Jackal\Copycat\Filter\ValueFilter;
  * Class NotBlankFilter
  * @package Jackal\Copycat\Filter\ValueFilter
  */
-class NotBlankFilter extends AbstractFilter
-{
-    /**
-     * @param $value
-     * @return bool
-     */
+class NotBlankFilter extends EqualFilter{
+    public function __construct($fieldName)
+    {
+        parent::__construct($fieldName, '');
+    }
+
     public function __invoke($value)
     {
-        return (isset($value[$this->fieldName]) and strlen($value[$this->fieldName]) > 0) ;
+        return !parent::__invoke($value);
     }
+
+
 }

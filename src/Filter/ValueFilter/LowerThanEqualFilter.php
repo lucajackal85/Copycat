@@ -6,14 +6,10 @@ namespace Jackal\Copycat\Filter\ValueFilter;
  * Class LowerThanEqualFilter
  * @package Jackal\Copycat\Filter\ValueFilter
  */
-class LowerThanEqualFilter extends GreaterThanFilter
-{
-    /**
-     * @param $value
-     * @return bool
-     */
-    public function __invoke($value)
+class LowerThanEqualFilter extends AbstractCompareFilter{
+
+    protected function getComparison()
     {
-        return !parent::__invoke($value);
+        return self::COMPARISON_LTE;
     }
 }

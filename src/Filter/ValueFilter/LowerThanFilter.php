@@ -8,44 +8,11 @@ use DateTime;
  * Class LowerThanFilter
  * @package Jackal\Copycat\Filter\ValueFilter
  */
-class LowerThanFilter extends AbstractFilter
+class LowerThanFilter extends AbstractCompareFilter
 {
-    /**
-     * @var int
-     */
-    private $comparedValue;
 
-    /**
-     * LowerThanFilter constructor.
-     * @param $fieldName
-     * @param int $comparedValue
-     */
-    public function __construct($fieldName, $comparedValue = 0)
+    protected function getComparison()
     {
-        parent::__construct($fieldName);
-        $this->comparedValue = $comparedValue;
-    }
-
-    /**
-     * @param $value
-     * @return bool
-     */
-    public function __invoke($value)
-    {
-        $val = $value[$this->fieldName];
-
-        switch (true) {
-            case !isset($val):
-                return false;
-            case is_numeric($val) or is_string($val):
-                return $val < $this->comparedValue;
-            case $val instanceof DateTime:{
-                if ($this->comparedValue instanceof DateTime) {
-                    $this->comparedValue = $this->comparedValue->format('Y-m-d H:i:s');
-                }
-
-                return $val->format('Y-m-d H:i:s') < $this->comparedValue;
-            }
-        }
+        return self::COMPARISON_LT;
     }
 }
