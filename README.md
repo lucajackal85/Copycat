@@ -7,6 +7,7 @@ A simple PHP to "copy" data from one source to another
 [![License](https://poser.pugx.org/jackal/copycat/license)](https://packagist.org/packages/jackal/copycat)
 [![Build Status](https://travis-ci.org/lucajackal85/BinLocator.svg?branch=master)](https://travis-ci.org/lucajackal85/BinLocator)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/lucajackal85/Copycat/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/lucajackal85/Copycat/?branch=master)
+[![codecov](https://codecov.io/gh/lucajackal85/copycat/branch/master/graph/badge.svg)](https://codecov.io/gh/lucajackal85/copycat)
 
 ### Requirement
 PHP >= **5.6**
